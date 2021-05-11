@@ -1,0 +1,9 @@
+body{
+    background-color: rgb(31,31,47);
+    padding-top:100px;
+
+}
+
+.card-body{
+    background-color: rgb(39,41,61) !important;
+}

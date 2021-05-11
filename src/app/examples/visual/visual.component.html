@@ -1,0 +1,43 @@
+<body>
+    <div class="container" >
+        <div class="row">
+          <div class="col-lg-11 col-md-8 col-sm-12">
+              <div class="row">
+                <div class="col-lg-4 col-md-3 col-sm-1" *ngFor="let v of VisualList">
+                  <div  class="card text-white bg-primary" style="width: 18rem;" color="primary" >
+                    <img src={{v.Image}} class="card-img-top" alt="...">
+                      <div class="card-body">
+                        <p class="typography">
+                              {{v.Description}}
+                        </p>
+                        <a href={{v.Image}} download #clickToDownload></a> 
+                         <button  (click)="clickToDownload.click()" class="btn btn-just-icon" style="float:right;" > <i class="fa fa-download"></i> </button>
+                       </div>
+                  </div>
+                    
+              </div>
+              </div>
+          </div>
+          <div class="col">
+            <button type="button" style="position:fixed;" class="btn btn-danger btn-just-icon" 
+            type="button" ngbTooltip="Upload Image" container="body" placement="right" (click)="open()">
+            <i class="nc-icon nc-simple-add"></i>
+            </button>
+            <button type="button" style="position:fixed;margin-top:50px;" class="btn btn-danger btn-just-icon" 
+            type="button" ngbTooltip="Add Guest" container="body" placement="right">
+              <i class="fa fa-user-plus"></i>
+            </button>
+            <button type="button" style="position:fixed;margin-top:100px;" class="btn btn-danger btn-just-icon" 
+            type="button" ngbTooltip="View Guests" container="body" placement="right">
+              <i class="fa fa-users"></i>
+            </button>
+            
+          </div>
+
+        </div>
+        
+          
+    </div>
+
+    
+</body>

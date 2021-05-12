@@ -26,10 +26,6 @@ export class SignupComponent implements OnInit {
     showAlert : boolean = false; 
 
 
-
-    /** Services  */
-     
-
     constructor( private router: Router, public _accountService: accountService ) { 
         this.userObj ={
             email: "",
@@ -61,6 +57,9 @@ export class SignupComponent implements OnInit {
                 this.showAlert = true ;
             }else{
                 localStorage.setItem("accessToken", res.accessToken) ;
+                localStorage.setItem("ac", res.ac) ;
+                this.router.navigate(["/project"]) ; 
+
             }
 
         },err =>{
@@ -75,13 +74,16 @@ export class SignupComponent implements OnInit {
 
         this._accountService.registerUser(this.userObj).subscribe(res => {
             console.log(res);
-            
 
             if(res.message){
                 this.alertMessage = res.message ;
                 this.showAlert = true ;
             }else{
+
+
                 localStorage.setItem("accessToken", res.accessToken) ;
+                localStorage.setItem("ac", res.ac) ;
+                this.router.navigate(["/project"]) ; 
             }
 
         },err =>{

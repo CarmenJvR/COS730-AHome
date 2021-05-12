@@ -10,7 +10,7 @@ import { TaskComponent } from './task/task.component';
 import { VisualComponent } from './visual/visual.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { BudgetComponent } from './budget/budget.component';
-
+import { ProjectComponent } from './project/project.component';
 
 @NgModule({
     imports: [
@@ -25,7 +25,8 @@ import { BudgetComponent } from './budget/budget.component';
         TaskComponent,
         VisualComponent,
         ScheduleComponent,
-        BudgetComponent
+        BudgetComponent,
+        ProjectComponent
     ]
 })
 export class ExamplesModule { }

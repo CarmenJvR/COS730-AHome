@@ -16,6 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 //services 
 import { accountService } from './service/account.service';
+import { projectService } from './service/project.service';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { accountService } from './service/account.service';
     AppRoutingModule,
   ],
   providers: [
-    accountService
+    accountService,
+    projectService
   ],
   bootstrap: [AppComponent]
 })

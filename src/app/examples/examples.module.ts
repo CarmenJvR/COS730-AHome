@@ -11,6 +11,7 @@ import { VisualComponent } from './visual/visual.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { BudgetComponent } from './budget/budget.component';
 
+
 @NgModule({
     imports: [
         CommonModule,

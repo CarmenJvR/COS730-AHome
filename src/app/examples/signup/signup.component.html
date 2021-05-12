@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="col-lg-4 col-sm-6 mr-auto ml-auto">
                       <div class="card card-register">
-                        <div class="form-check" style="float:right;"> 
+                        <div class="form-check" style="float:right;">
                             <label class="form-check-label">
                               <input class="form-check-input" type="checkbox" [checked]="guestLogin"
                               (change)="guestLogin = !guestLogin" >
@@ -14,7 +14,10 @@
                             </label>
                           </div>
                           <h3 class="title">Welcome</h3>
-                            <form class="register-form">
+                          <div class="alert alert-danger" role="alert" *ngIf="showAlert" >
+                            {{alertMessage}}
+                          </div> 
+                            <form class="register-form" >
                               <label>Email</label>
                               <div class="input-group form-group-no-border" [ngClass]="{'input-group-focus':focus===true}">
                                 <div class="input-group-prepend">
@@ -23,7 +26,7 @@
                                   </span>
                                 </div>
 
-                                  <input type="email" class="form-control" placeholder="Email" (focus)="focus=true" (blur)="focus=false" >
+                                  <input type="email" name="userEmail" class="form-control" [(ngModel)]="userObj.email" placeholder="Email" (focus)="focus=true" (blur)="focus=false" >
                               </div>
                               <div *ngIf="!guestLogin">
                               <label>Password</label>
@@ -33,11 +36,11 @@
                                       <i class="nc-icon nc-key-25"></i>
                                   </span>
                                 </div>
-                                  <input type="password" class="form-control" placeholder="Password"  (focus)="focus1=true" (blur)="focus1=false" >
+                                  <input type="password" name="userPass" class="form-control" [(ngModel)]="userObj.password" placeholder="Password"  (focus)="focus1=true" (blur)="focus1=false" >
                               </div>
                             </div>
-                              <button class="btn btn-danger btn-block btn-round" *ngIf="register" >Register</button>
-                              <button class="btn btn-danger btn-block btn-round" *ngIf="login">Login</button>
+                              <button class="btn btn-danger btn-block btn-round" (click)="onRegister()" *ngIf="register" >Register</button>
+                              <button class="btn btn-danger btn-block btn-round" (click)="onLogin()" *ngIf="login">Login</button>
                           </form>
                           <div class="forgot">
                             <a  class="btn btn-link btn-danger" (click)="flipView()" *ngIf="login && !guestLogin">New user? Register</a>

@@ -12,6 +12,12 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { ComponentsModule } from './components/components.module';
 import { ExamplesModule } from './examples/examples.module';
 
+import { HttpClientModule } from '@angular/common/http';
+
+//services 
+import { accountService } from './service/account.service';
+import { projectService } from './service/project.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,11 +29,15 @@ import { ExamplesModule } from './examples/examples.module';
     NgbModule,
     FormsModule,
     RouterModule,
+    HttpClientModule,
     ComponentsModule,
     ExamplesModule,
     AppRoutingModule,
   ],
-  providers: [],
+  providers: [
+    accountService,
+    projectService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

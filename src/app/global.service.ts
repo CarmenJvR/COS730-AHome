@@ -18,6 +18,10 @@ export class GlobalService {
 
   constructor(private router: Router) { }
 
+  //navigation
+  public currentViewTabs : boolean = false;
+  public showLoading : boolean = false;
+
  //Alerts
   public showAlert : boolean = false; 
   public AlertMessage : string = ""; 

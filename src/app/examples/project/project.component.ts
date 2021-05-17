@@ -38,11 +38,11 @@ export class ProjectComponent implements OnInit {
 
   ngOnInit(): void { 
     this._globalService.currentProject = "AHome"; 
+    this._globalService.showLoading = true ; 
     var reqObj = {ac: localStorage.getItem("ac")} ;
 
       this._projectService.getProjectList(reqObj).subscribe(res =>{
-        console.log(res);  
-        //this.ProjectList = res.results ;
+        this._globalService.showLoading = false; 
         this._globalService.ProjectList = res.results ; 
 
         if(this._globalService.ProjectList.length == 0){
@@ -53,8 +53,13 @@ export class ProjectComponent implements OnInit {
         this._globalService.showAlert = this.showAlert; 
 
       } , err => {
+        this._globalService.showLoading = false; 
           console.log(err.error);
       });
+  }
+
+  ionViewWillEnter(){
+    this._globalService.currentViewTabs = false;
   }
 
   selectProject(proID : any, proName: any){
@@ -137,28 +142,32 @@ export class NgbdModalContent {
     }
 
     //request
-    console.log(PC);
+    this._globalService.showLoading = true;
+
     this._projectService.createProject(PC).subscribe(res =>{
+      this._globalService.showLoading = false; 
         this._globalService.AlertMessage = res.message ; 
         this._globalService.showAlert = true ;
 
 
         this.updateListDisplay();
     }, err =>{
+      this._globalService.showLoading = false; 
       console.log(err.error);
     });
 
   }
 
   updateListDisplay(){
+    this._globalService.showLoading = true; 
     var reqObj = {ac: localStorage.getItem("ac")} ;
     this._projectService.getProjectList(reqObj).subscribe(res =>{
-      console.log(res);  
-      //this.ProjectList = res.results ;
+      this._globalService.showLoading = false; 
       this._globalService.ProjectList = res.results ; 
 
 
     } , err => {
+      this._globalService.showLoading = false; 
         console.log(err.error);
     });
   }

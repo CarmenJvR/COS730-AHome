@@ -36,6 +36,7 @@ export class SignupComponent implements OnInit {
 
     ngOnInit() {
         this._globalService.currentProject = "AHome";
+        this._globalService.currentViewTabs = false;
         this.login= true ;
         this.register = false ;
         this.guestLogin = false; 
@@ -43,6 +44,7 @@ export class SignupComponent implements OnInit {
 
     ionViewWillEnter(){
         this._globalService.currentProject = "AHome";
+        this._globalService.currentViewTabs = false;
         this.login= true ;
         this.register = false ;
         this.guestLogin = false;

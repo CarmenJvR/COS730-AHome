@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { projectService } from '../../service/project.service';
 import { Router } from '@angular/router';
 import {NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-
+import { GlobalService } from "../../global.service";
 
 export interface ProjectObj {
   id: number ;
@@ -34,29 +34,33 @@ export class ProjectComponent implements OnInit {
   showAlert : boolean = false; 
   ProjectList : ProjectObj[] = new Array();
 
-  constructor(private router: Router, public _projectService: projectService, private modalService: NgbModal ) { }
+  constructor(public _globalService: GlobalService, private router: Router, public _projectService: projectService, private modalService: NgbModal ) { }
 
   ngOnInit(): void { 
-
+    this._globalService.currentProject = "AHome"; 
     var reqObj = {ac: localStorage.getItem("ac")} ;
 
       this._projectService.getProjectList(reqObj).subscribe(res =>{
         console.log(res);  
-        this.ProjectList = res.results ;
+        //this.ProjectList = res.results ;
+        this._globalService.ProjectList = res.results ; 
 
-        if(this.ProjectList.length == 0){
-          this.showAlert = true;
+        if(this._globalService.ProjectList.length == 0){
+          this._globalService.showAlert = true;
+          this._globalService.AlertMessage = "No Projects Yet. Start creating projects to enjoy all features of AHome!" ; 
         }
 
-        localStorage.setItem("alert",this.alertMessage);
+        this._globalService.showAlert = this.showAlert; 
 
       } , err => {
           console.log(err.error);
       });
   }
 
-  selectProject(proID : any){
+  selectProject(proID : any, proName: any){
       console.log(proID);
+      this._globalService.currentProject = proName ; 
+      this.router.navigate(["/task"]) ;
   }
 
 
@@ -120,7 +124,7 @@ export class ProjectComponent implements OnInit {
 export class NgbdModalContent {
   @Input() name;
 
-  constructor(public activeModal: NgbActiveModal, public _projectService: projectService) {}
+  constructor(public _globalService: GlobalService, public activeModal: NgbActiveModal, public _projectService: projectService) {}
 
   createProject(iName: any , isd: any, ied:any, ibudget , event: Event){
     //request object
@@ -135,13 +139,28 @@ export class NgbdModalContent {
     //request
     console.log(PC);
     this._projectService.createProject(PC).subscribe(res =>{
-        console.log(res);
+        this._globalService.AlertMessage = res.message ; 
+        this._globalService.showAlert = true ;
+
+
+        this.updateListDisplay();
     }, err =>{
       console.log(err.error);
     });
 
   }
 
+  updateListDisplay(){
+    var reqObj = {ac: localStorage.getItem("ac")} ;
+    this._projectService.getProjectList(reqObj).subscribe(res =>{
+      console.log(res);  
+      //this.ProjectList = res.results ;
+      this._globalService.ProjectList = res.results ; 
 
+
+    } , err => {
+        console.log(err.error);
+    });
+  }
 
 }

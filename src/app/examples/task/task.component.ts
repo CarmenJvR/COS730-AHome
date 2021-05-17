@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import {NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import { GlobalService } from "../../global.service";
 
 export interface TaskItem{
   Description: string;
@@ -28,9 +29,10 @@ export class TaskComponent implements OnInit {
   {"Description": "Get quote for bricks", "Priority" :3},
   ] ;
 
-  constructor(private modalService: NgbModal) { }
+  constructor(public _globalService: GlobalService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
+    this._globalService.currentViewTabs = true;
   }
 
   //Open modal for task creation

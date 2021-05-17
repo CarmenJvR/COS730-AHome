@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { accountService } from '../../service/account.service';
 import { Router } from '@angular/router';
+import { GlobalService } from "../../global.service";
 
 export interface User {
     email: string;
@@ -26,7 +27,7 @@ export class SignupComponent implements OnInit {
     showAlert : boolean = false; 
 
 
-    constructor( private router: Router, public _accountService: accountService ) { 
+    constructor(public _globalService: GlobalService, private router: Router, public _accountService: accountService ) { 
         this.userObj ={
             email: "",
             password: ""
@@ -34,9 +35,19 @@ export class SignupComponent implements OnInit {
     }
 
     ngOnInit() {
+        this._globalService.currentProject = "AHome";
+        this._globalService.currentViewTabs = false;
         this.login= true ;
         this.register = false ;
         this.guestLogin = false; 
+    }
+
+    ionViewWillEnter(){
+        this._globalService.currentProject = "AHome";
+        this._globalService.currentViewTabs = false;
+        this.login= true ;
+        this.register = false ;
+        this.guestLogin = false;
     }
 
     flipView(){

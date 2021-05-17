@@ -18,6 +18,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { accountService } from './service/account.service';
 import { projectService } from './service/project.service';
 
+//Global
+import { GlobalService } from './global.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,7 +39,8 @@ import { projectService } from './service/project.service';
   ],
   providers: [
     accountService,
-    projectService
+    projectService,
+    GlobalService,
   ],
   bootstrap: [AppComponent]
 })

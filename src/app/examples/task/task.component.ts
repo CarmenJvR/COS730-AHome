@@ -3,6 +3,9 @@ import {NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import { GlobalService } from "../../global.service";
 import { taskService } from '../../service/task.service';
 
+import  jsPDF from 'jspdf';
+import 'jspdf-autotable';
+
 @Component({
   selector: 'app-task',
   templateUrl: './task.component.html',
@@ -113,6 +116,41 @@ export class TaskComponent implements OnInit {
   showInfoAlert(){
     this.infoAlert = true; 
   }
+
+
+
+
+ downloadPDF(){
+    var headi = [['Description','Priority']] ;
+    var doc = new jsPDF();
+    var datai = []; 
+
+    this._globalService.TaskList.forEach(element => {      
+      var temp = [element.description, element.priority];
+      datai.push(temp);
+   }); 
+
+
+   doc.setFontSize(18);
+   doc.text('Project Tasklist: ' + this._globalService.currentProject , 11, 8);
+   doc.setFontSize(11);
+   doc.setTextColor(100);
+
+
+   (doc as any).autoTable({
+     head: headi,
+     body: datai,
+     theme: 'grid',
+     didDrawCell: data => {
+       console.log(data.column.index)
+     }
+   })
+
+
+    // Download PDF document  
+    doc.save('table.pdf');
+  } 
+
 
 }
 

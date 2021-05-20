@@ -12,8 +12,8 @@ export interface ProjectObj {
 
   export interface TaskObj{
     ID : number ;
-    Description: string;
-    Priority : number ; 
+    description: string;
+    priority : number ; 
   }
 
 

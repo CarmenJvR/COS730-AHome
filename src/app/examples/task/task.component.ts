@@ -10,10 +10,12 @@ import { taskService } from '../../service/task.service';
 })
 export class TaskComponent implements OnInit {
 
+  public infoAlert : boolean = false;
 
   constructor(public _globalService: GlobalService, private modalService: NgbModal, public _taskService: taskService) {
     this._globalService.showLoading = true; 
    }
+
 
   ngOnInit(): void {
     this._globalService.currentViewTabs = true;
@@ -88,6 +90,28 @@ export class TaskComponent implements OnInit {
       this._globalService.showAlert = true ;
       this._globalService.AlertMessage = "Could not retrieve previously created tasks...";
     });
+  }
+
+
+  sortListByPrioriy(){
+   this._globalService.TaskList.sort(this.comparePriority) ;
+  }
+
+  comparePriority(a, b) {
+    const taskA = a.priority;
+    const taskB = b.priority;
+  
+    let comparison = 0;
+    if (taskA > taskB) {
+      comparison = 1;
+    } else if (taskA < taskB) {
+      comparison = -1;
+    }
+    return comparison;
+  }
+
+  showInfoAlert(){
+    this.infoAlert = true; 
   }
 
 }

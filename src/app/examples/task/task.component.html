@@ -9,6 +9,17 @@
           </div>
             <p class="typography" style="text-align: center;"> {{_globalService.AlertMessage}} </p>
           </div>
+
+          <div *ngIf="infoAlert" class="alert alert-dark" color="primary" style="text-align: center;" role="alert"  >
+            <div  >    
+              <a class="nav-link" href="#" style="float:right;" (click)="infoAlert=false"><i class="fa fa-close" aria-hidden="true"></i></a>
+          </div>
+            <p class="typography" style="text-align: center;color:black;"> The tasks are color-coded based on the level of priority <br> 1: High Priority - 4: Low Level priority  </p>
+            <button type="button" style="display: inline;" class="btn btn-danger btn-just-icon" > 1 </button>
+            <button type="button" style="display: inline;margin-left:20px;" class="btn btn-warning btn-just-icon" > 2 </button>
+            <button type="button" style="display: inline;margin-left:20px;" class="btn btn-success btn-just-icon" > 3 </button>
+            <button type="button" style="display: inline;margin-left:20px;" class="btn btn-primary btn-just-icon" > 4 </button>
+          </div>
         </div>
         </div>
         <div class="row">
@@ -60,7 +71,15 @@
            
           </div> 
           <div class="col">
-            <button type="button" style="position:fixed;" class="btn btn-danger btn-just-icon" (click)="open()"><i class="fa fa-plus"></i></button>
+            <button type="button" style="position:fixed;" ngbTooltip="Create Task" container="body" placement="right" class="btn btn-danger btn-just-icon" (click)="open()">
+              <i class="fa fa-plus"></i>
+            </button>
+            <button type="button" style="position:fixed;margin-top: 50px;" ngbTooltip="Order by priority" container="body" placement="right" class="btn btn-danger btn-just-icon" (click)="sortListByPrioriy()">
+              <i class="fa fa-arrow-up"></i>
+            </button>
+            <button type="button" style="position:fixed;margin-top: 100px;" ngbTooltip="Order by priority" container="body" placement="right" class="btn btn-danger btn-just-icon" (click)="showInfoAlert()">
+              <i class="fa fa-info"></i>
+            </button>
           </div>
 
         </div>

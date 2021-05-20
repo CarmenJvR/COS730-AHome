@@ -64,6 +64,7 @@ export class ProjectComponent implements OnInit {
 
   selectProject(proID : any, proName: any){
       console.log(proID);
+      localStorage.setItem("pID",proID);
       this._globalService.currentProject = proName ; 
       this.router.navigate(["/task"]) ;
   }

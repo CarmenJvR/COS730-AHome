@@ -1,13 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import {NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import { GlobalService } from "../../global.service";
-
-export interface TaskItem{
-  Description: string;
-  Priority : number ; 
-}
-
-export var TaskList : TaskItem[] = new Array(); 
+import { taskService } from '../../service/task.service';
 
 @Component({
   selector: 'app-task',
@@ -16,29 +10,84 @@ export var TaskList : TaskItem[] = new Array();
 })
 export class TaskComponent implements OnInit {
 
-  TaskList = [ {"Description": "Call Tiler","Priority" :4},
-  {"Description": "Get quote for bricks", "Priority" :2},
-  {"Description": "Pay the Builder before Monday 09", "Priority" :1},
-  {"Description": "Move debrie from site", "Priority" :3},
-  {"Description": "Arrange meeting with Estate commitee", "Priority" :4},
-  {"Description": "Organise cleaner to wash Kitchen", "Priority" :4},
-  {"Description": "Get quote for wood floor paneling", "Priority" :2},
-  {"Description": "Get quote for bricks", "Priority" :2},
-  {"Description": "Get quote for bricks", "Priority" :1},
-  {"Description": "Get quote for bricks", "Priority" :2},
-  {"Description": "Get quote for bricks", "Priority" :3},
-  ] ;
 
-  constructor(public _globalService: GlobalService, private modalService: NgbModal) { }
+  constructor(public _globalService: GlobalService, private modalService: NgbModal, public _taskService: taskService) {
+    this._globalService.showLoading = true; 
+   }
 
   ngOnInit(): void {
     this._globalService.currentViewTabs = true;
+
+    var reqBody = {"pid" : Number(localStorage.getItem("pID"))} ;
+
+    this._globalService.showLoading = true; 
+
+    this._taskService.getTaskList(reqBody).subscribe(res=>{
+      this._globalService.showLoading = false; 
+        this._globalService.TaskList = res.results ; 
+        console.log(this._globalService.TaskList );
+
+        if(this._globalService.TaskList.length == 0){
+          this._globalService.showAlert = true ;
+          this._globalService.AlertMessage = "Start creating tasks to view them here";
+        }
+
+    }, err => {
+      this._globalService.showLoading = false; 
+      console.log(err.error);
+      this._globalService.showAlert = true ;
+      this._globalService.AlertMessage = "Could not retrieve previously created tasks...";
+    });
+
+
   }
 
   //Open modal for task creation
   open() {
     const modalRef = this.modalService.open(NgbdModalContent);
-    modalRef.componentInstance.name = 'World';
+    modalRef.componentInstance.name = 'task creation';
+  }
+
+  closeTask(iTask: any){
+      var reqBody = { "tid" : Number(iTask) } ;
+
+      this._globalService.showLoading = true; 
+      
+      this._taskService.removeTask(reqBody).subscribe(res=>{
+        this._globalService.showLoading = false; 
+        this._globalService.showAlert = true ;
+        this._globalService.AlertMessage = res.message ;
+        this.updateTaskList();
+
+      }, err=>{
+        this._globalService.showLoading = false; 
+        this._globalService.showAlert = true ;
+        this._globalService.AlertMessage = "Could not close task";
+      });
+  }
+
+
+  updateTaskList(){
+
+    var reqBody = {"pid" : Number(localStorage.getItem("pID"))} ;
+    this._globalService.showLoading = true; 
+
+      
+    this._taskService.getTaskList(reqBody).subscribe(res=>{
+      this._globalService.showLoading = false; 
+        this._globalService.TaskList = res.results ; 
+
+        if(this._globalService.TaskList.length == 0){
+          this._globalService.showAlert = true ;
+          this._globalService.AlertMessage = "Start creating tasks to view them here";
+        }
+
+    }, err => {
+      this._globalService.showLoading = false; 
+      console.log(err.error);
+      this._globalService.showAlert = true ;
+      this._globalService.AlertMessage = "Could not retrieve previously created tasks...";
+    });
   }
 
 }
@@ -64,6 +113,7 @@ export class TaskComponent implements OnInit {
 
         <div class="typography-line" style="padding-left:10px;margin-top:10px">
             <h6> Task Priority </h6>
+            <h6> (1: high priority - 4: low priority) </h6>
           </div>
         <input type="number" min="1" max="4" class="form-control" value="1" #pri>
 
@@ -84,11 +134,54 @@ export class TaskComponent implements OnInit {
 export class NgbdModalContent {
   @Input() name;
 
-  constructor(public activeModal: NgbActiveModal) {}
+  constructor(public _globalService: GlobalService, public _taskService: taskService, public activeModal: NgbActiveModal) {}
 
   addTaskToList(iDescription: any , iPriority: any , event: Event){
-    TaskList.push( {"Description": iDescription, "Priority" : iPriority });
-    console.log(TaskList);
+    
+    var ReqBody = {"pid": Number(localStorage.getItem("pID")) , "desc": iDescription , "priority" : Number(iPriority) };
+
+
+    this._globalService.showLoading = true; 
+    this._taskService.createTask(ReqBody).subscribe(res =>{
+      this._globalService.showLoading = false; 
+      this._globalService.showAlert = true ;
+      this._globalService.AlertMessage = res.message ;
+
+      this.updateTaskList();
+  
+
+    }, err => {
+      this._globalService.showLoading = false; 
+
+    });
+
+    
+
+  }
+
+
+
+  updateTaskList(){
+
+    var reqBody = {"pid" : Number(localStorage.getItem("pID"))} ;
+    this._globalService.showLoading = true; 
+
+      
+    this._taskService.getTaskList(reqBody).subscribe(res=>{
+      this._globalService.showLoading = false; 
+        this._globalService.TaskList = res.results ; 
+
+        if(this._globalService.TaskList.length == 0){
+          this._globalService.showAlert = true ;
+          this._globalService.AlertMessage = "Start creating tasks to view them here";
+        }
+
+    }, err => {
+      this._globalService.showLoading = false; 
+      console.log(err.error);
+      this._globalService.showAlert = true ;
+      this._globalService.AlertMessage = "Could not retrieve previously created tasks...";
+    });
   }
 
 

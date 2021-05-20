@@ -1,52 +1,64 @@
 
 <body>
     <div class="container" >
+      <div class="row">
+        <div class="col-12">
+          <div *ngIf="_globalService.showAlert" class="alert alert-danger" role="alert"  >
+            <div  >    
+              <a class="nav-link" href="#" style="float:right;" (click)="this._globalService.showAlert=false"><i class="fa fa-close" aria-hidden="true"></i></a>
+          </div>
+            <p class="typography" style="text-align: center;"> {{_globalService.AlertMessage}} </p>
+          </div>
+        </div>
+        </div>
         <div class="row">
           <div class="col-lg-11 col-md-8 col-sm-12">
               <div class="row">
-                <div class="col-lg-4 col-md-3 col-sm-1" *ngFor="let t of TaskList">
-                  <div *ngIf="t.Priority===1" class="card text-white bg-danger" style="width: 18rem;" color="primary" >
+                
+           <div class="col-lg-4 col-md-6 col-sm-12" *ngFor="let t of _globalService.TaskList">
+                  <div *ngIf="t.priority===1" class="card text-white bg-danger" style="width: 18rem;" color="primary" >
                       <div class="card-header" >    
-                          <a class="nav-link" href="#" style="float:right;"><i class="fa fa-close" aria-hidden="true"></i></a>
+                          <a class="nav-link"  style="float:right;cursor: pointer;" (click)="closeTask(t.id)"><i class="fa fa-close" aria-hidden="true"></i></a>
                       </div>
                       <div class="card-body">
                         <p class="typography" style="color:black;">
-                              {{t.Description}}</p>
+                              {{t.description}}</p>
                       </div>
                     </div>
     
-                    <div *ngIf="t.Priority===2" class="card text-white bg-warning" style="width: 18rem;" color="primary" >
+                    <div *ngIf="t.priority===2" class="card text-white bg-warning" style="width: 18rem;" color="primary" >
                       <div class="card-header">
-                          <a class="nav-link" href="#" style="float:right;"><i class="fa fa-close" aria-hidden="true"></i></a>
+                          <a class="nav-link" style="float:right;cursor: pointer;" (click)="closeTask(t.id)"><i class="fa fa-close" aria-hidden="true"></i></a>
                       </div>
                       <div class="card-body" style="color:black;">
-                        <p class="typography">{{t.Description}}</p>
+                        <p class="typography">{{t.description}}</p>
                       </div>
                     </div>
     
-                    <div *ngIf="t.Priority===3" class="card text-white bg-success" style="width: 18rem;" color="primary" >
+                    <div *ngIf="t.priority===3" class="card text-white bg-success" style="width: 18rem;" color="primary" >
                       <div class="card-header" >
-                          <a class="nav-link" href="#" style="float:right;"><i class="fa fa-close" aria-hidden="true"></i></a>
+                          <a class="nav-link"  style="float:right;cursor: pointer;" (click)="closeTask(t.id)"><i class="fa fa-close" aria-hidden="true"></i></a>
                      
                       </div>
                       <div class="card-body" style="color:black;"> 
-                        <p class="typography">{{t.Description}}</p>
+                        <p class="typography">{{t.description}}</p>
                       </div>
                     </div>
     
-                    <div *ngIf="t.Priority===4" class="card text-white bg-primary" style="width: 18rem;" color="primary" >
+                    <div *ngIf="t.priority===4" class="card text-white bg-primary" style="width: 18rem;" color="primary" >
                       <div class="card-header">
-                          <a class="nav-link" href="#" style="float:right;"><i class="fa fa-close" aria-hidden="true"></i></a>
+                          <a class="nav-link" style="float:right;cursor: pointer;" (click)="closeTask(t.id)"><i class="fa fa-close" aria-hidden="true"></i></a>
                      
                       </div>
                       <div class="card-body" style="color:black;">
-                        <p class="typography">{{t.Description}}</p>
+                        <p class="typography">{{t.description}}</p>
                       </div>
                     </div>
                     
               </div>
-              </div>
-          </div>
+         </div>
+           
+          </div> 
           <div class="col">
             <button type="button" style="position:fixed;" class="btn btn-danger btn-just-icon" (click)="open()"><i class="fa fa-plus"></i></button>
           </div>

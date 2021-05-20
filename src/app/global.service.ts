@@ -16,6 +16,13 @@ export interface ProjectObj {
     priority : number ; 
   }
 
+  export interface BoardObj{
+    id: number ;
+    name: string;
+    image : string; 
+  }
+  
+
 
 @Injectable({
   providedIn: 'root'
@@ -39,5 +46,8 @@ export class GlobalService {
   //Task
   public TaskList : TaskObj[] = new Array(); 
 
+
+  //Visual
+  public VisualList : BoardObj[] = new Array();
 
 }

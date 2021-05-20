@@ -18,6 +18,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { accountService } from './service/account.service';
 import { projectService } from './service/project.service';
 import { taskService } from './service/task.service';
+import { visualService } from './service/visual.service';
 
 //Global
 import { GlobalService } from './global.service';
@@ -42,6 +43,7 @@ import { GlobalService } from './global.service';
     accountService,
     projectService,
     taskService,
+    visualService,
     GlobalService,
   ],
   bootstrap: [AppComponent]

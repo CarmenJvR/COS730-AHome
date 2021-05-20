@@ -10,6 +10,12 @@ export interface ProjectObj {
     budget_total: number;
   }
 
+  export interface TaskObj{
+    ID : number ;
+    Description: string;
+    Priority : number ; 
+  }
+
 
 @Injectable({
   providedIn: 'root'
@@ -29,5 +35,9 @@ export class GlobalService {
   //Project
   ProjectList : ProjectObj[] = new Array();
   public currentProject : string = "AHome" ; 
+
+  //Task
+  public TaskList : TaskObj[] = new Array(); 
+
 
 }

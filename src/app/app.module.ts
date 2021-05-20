@@ -17,6 +17,7 @@ import { HttpClientModule } from '@angular/common/http';
 //services 
 import { accountService } from './service/account.service';
 import { projectService } from './service/project.service';
+import { taskService } from './service/task.service';
 
 //Global
 import { GlobalService } from './global.service';
@@ -40,6 +41,7 @@ import { GlobalService } from './global.service';
   providers: [
     accountService,
     projectService,
+    taskService,
     GlobalService,
   ],
   bootstrap: [AppComponent]

@@ -5,6 +5,7 @@ import { taskService } from '../../service/task.service';
 
 import  jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { toBase64String } from '@angular/compiler/src/output/source_map';
 
 @Component({
   selector: 'app-task',
@@ -136,6 +137,7 @@ export class TaskComponent implements OnInit {
    doc.setFontSize(11);
    doc.setTextColor(100);
 
+   
 
    (doc as any).autoTable({
      head: headi,
@@ -148,7 +150,7 @@ export class TaskComponent implements OnInit {
 
 
     // Download PDF document  
-    doc.save('table.pdf');
+    doc.save('AHome Project Tasklist: ' + this._globalService.currentProject +'.pdf');
   } 
 
 

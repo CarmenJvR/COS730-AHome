@@ -37,6 +37,8 @@ export class ProjectComponent implements OnInit {
   constructor(public _globalService: GlobalService, private router: Router, public _projectService: projectService, private modalService: NgbModal ) { }
 
   ngOnInit(): void { 
+    this._globalService.TaskList = [];
+    this._globalService.VisualList = [];
     this._globalService.currentProject = "AHome"; 
     this._globalService.showLoading = true ; 
     var reqObj = {ac: localStorage.getItem("ac")} ;

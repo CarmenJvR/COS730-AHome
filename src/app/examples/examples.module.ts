@@ -12,11 +12,14 @@ import { ScheduleComponent } from './schedule/schedule.component';
 import { BudgetComponent } from './budget/budget.component';
 import { ProjectComponent } from './project/project.component';
 
+
+
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         NgbModule,
+        
     ],
     declarations: [
         LandingComponent,

@@ -24,6 +24,8 @@ import { budgetService } from './service/budget.service';
 //Global
 import { GlobalService } from './global.service';
 
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,7 +40,7 @@ import { GlobalService } from './global.service';
     HttpClientModule,
     ComponentsModule,
     ExamplesModule,
-    AppRoutingModule,
+    AppRoutingModule
   ],
   providers: [
     accountService,

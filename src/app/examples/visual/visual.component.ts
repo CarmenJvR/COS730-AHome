@@ -1,10 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import {NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import { GlobalService } from "../../global.service";
+import { visualService } from '../../service/visual.service';
 
-export interface BoardItem{
-  Description: string;
-  Image : string; 
-}
 
 @Component({
   selector: 'app-visual',
@@ -13,30 +11,37 @@ export interface BoardItem{
 })
 export class VisualComponent implements OnInit {
 
-  VisualList =  [{"Description": "Some text here" , "Image": "../assets/img/rooftop.jpg" },
-                {"Description": "Some text here" , "Image": "../assets/img/rooftop.jpg" },
-                {"Description": "Some text here" , "Image": "../assets/img/rooftop.jpg" },
-                {"Description": "Some text here" , "Image": "../assets/img/rooftop.jpg" },
-                {"Description": "Some text here" , "Image": "../assets/img/rooftop.jpg" },
-                {"Description": "Some text here" , "Image": "../assets/img/rooftop.jpg" },
-                {"Description": "Some text here" , "Image": "../assets/img/rooftop.jpg" },
-                {"Description": "Some text here" , "Image": "../assets/img/rooftop.jpg" },
-                {"Description": "Some text here" , "Image": "../assets/img/rooftop.jpg" },
-                {"Description": "Some text here" , "Image": "../assets/img/rooftop.jpg" },
-                {"Description": "Some text here" , "Image": "../assets/img/rooftop.jpg" },
-                {"Description": "Some text here" , "Image": "../assets/img/rooftop.jpg" },
-                {"Description": "Some text here" , "Image": "../assets/img/rooftop.jpg" },
-  ] ;
+  
 
-  constructor(private modalService: NgbModal) { }
+  constructor(private modalService: NgbModal, public _visualService: visualService , public _globalService : GlobalService) { }
 
   ngOnInit(): void {
+
+    var reqBody = {"pid" : Number(localStorage.getItem("pID"))} ;
+    this._globalService.showLoading = true ;
+
+    this._visualService.getBoardList(reqBody).subscribe(res=>{
+      this._globalService.showLoading = false ;
+      this._globalService.VisualList = res.results ;
+
+      if(this._globalService.VisualList.length == 0){
+        this._globalService.showAlert = true ;
+        this._globalService.AlertMessage = "Start uploading images to view your Visual Board here...";
+      }
+
+    },err => {
+
+      this._globalService.showLoading = false ;
+    });
+
   }
 
   open() {
     const modalRef = this.modalService.open(NgbdModalContent);
-    modalRef.componentInstance.name = 'World';
+    modalRef.componentInstance.name = 'visual create';
   }
+
+
 
 }
 
@@ -75,7 +80,7 @@ export class VisualComponent implements OnInit {
       </div>
       <div class="divider"></div>
       <div class="right-side">
-          <button type="submit" class="btn btn-success btn-link" (click)="addTaskToList(des.value, img.value , $event);activeModal.close('Close click') ">Create</button>
+          <button type="submit" class="btn btn-success btn-link" (click)="addVisualToList(des.value, img.value , $event);activeModal.close('Close click') ">Create</button>
       </div>
   </div>
   `
@@ -84,10 +89,32 @@ export class NgbdModalContent {
   @Input() name;
   base64textString : string;
 
-  constructor(public activeModal: NgbActiveModal) {}
+  constructor(public activeModal: NgbActiveModal, public _visualService: visualService , public _globalService : GlobalService) {}
 
-  addTaskToList(iDescription: any , iImage: any , event: Event){
-    console.log("{Description:"+iDescription+", Image: "+ this.base64textString+"}");
+  addVisualToList(iDescription: any , iImage: any , event: Event ){
+   
+     var reqBody = {"pid":  Number(localStorage.getItem("pID")) , "name": iDescription , "image": this.base64textString };
+     console.log(reqBody);
+     
+    this._globalService.showLoading = true ;
+    this._visualService.createBoard(reqBody).subscribe(res =>{
+      this._globalService.showLoading = false ;
+
+      this._globalService.AlertMessage = res.message ;
+      this._globalService.showAlert = true ; 
+
+      this.updateVisualList();
+
+    }, err =>{
+      this._globalService.showLoading = false ;
+      this._globalService.AlertMessage = "Failed to upload image. Please try again later" ;
+      this._globalService.showAlert = true ; 
+
+    });
+
+    
+    
+
   }
 
 
@@ -100,15 +127,29 @@ export class NgbdModalContent {
       //console.log(reader.result);
       let s = reader.result ; 
       me.base64textString = reader.result.toString() ;
-  
-
-
-      
-      //console.log(me.diverObj.ProfilePhoto);s
     };
     reader.onerror = function (error) {
       console.log('Error: ', error);
     };
+  }
+
+  updateVisualList(){
+    var reqBody = {"pid" : Number(localStorage.getItem("pID"))} ;
+    this._globalService.showLoading = true ;
+
+    this._visualService.getBoardList(reqBody).subscribe(res=>{
+      this._globalService.showLoading = false ;
+      this._globalService.VisualList = res.results ;
+
+      if(this._globalService.VisualList.length == 0){
+        this._globalService.showAlert = true ;
+        this._globalService.AlertMessage = "Start uploading images to view your Visual Board here...";
+      }
+
+    },err => {
+
+      this._globalService.showLoading = false ;
+    });
   }
 
 }

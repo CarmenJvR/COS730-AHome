@@ -3,14 +3,22 @@
         <div class="row">
           <div class="col-lg-11 col-md-8 col-sm-12">
               <div class="row">
-                <div class="col-lg-4 col-md-3 col-sm-1" *ngFor="let v of VisualList">
+                <div class="col-12">
+                  <div *ngIf="_globalService.showAlert" class="alert alert-danger" role="alert"  >
+                    <div  >    
+                      <a class="nav-link" href="#" style="float:right;" (click)="this._globalService.showAlert=false"><i class="fa fa-close" aria-hidden="true"></i></a>
+                  </div>
+                    <p class="typography" style="text-align: center;"> {{_globalService.AlertMessage}} </p>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-3 col-sm-1" *ngFor="let v of _globalService.VisualList">
                   <div  class="card text-white bg-primary" style="width: 18rem;" color="primary" >
-                    <img src={{v.Image}} class="card-img-top" alt="...">
+                    <img src={{v.image}} class="card-img-top" alt="...">
                       <div class="card-body">
                         <p class="typography">
-                              {{v.Description}}
+                              {{v.name}}
                         </p>
-                        <a href={{v.Image}} download #clickToDownload></a> 
+                        <a href={{v.image}} download #clickToDownload></a> 
                          <button  (click)="clickToDownload.click()" class="btn btn-just-icon" style="float:right;" > <i class="fa fa-download"></i> </button>
                        </div>
                   </div>

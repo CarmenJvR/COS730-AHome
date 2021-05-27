@@ -3,6 +3,8 @@ import {NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import { GlobalService } from "../../global.service";
 import { budgetService } from '../../service/budget.service';
 import { Router } from '@angular/router';
+import  jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 @Component({
   selector: 'app-budget',
@@ -137,6 +139,63 @@ export class BudgetComponent implements OnInit {
       this._globalService.AlertMessage = "Could not update expense" ;
     });
   }
+
+  downloadPDF(){
+    var headi = [['Description','Total', 'Status']] ;
+    var doc = new jsPDF();
+    var datai = []; 
+
+    //datai.push(['Budget Total', this._globalService.projectOpen.budget_total, '']);
+
+    this._globalService.ExpenseList.forEach(element => {      
+      var temp = [element.description, element.total, element.status];
+      datai.push(temp);
+   }); 
+
+  // datai.push(['', '', '']);
+   //datai.push(['Total Spent', this._globalService.ExpenseMade, '']);
+   //datai.push(['Total Remaining', this._globalService.BudgetLeft, '']);
+
+
+   doc.setFontSize(18);
+  
+
+   doc.text('Project Budget: ' + this._globalService.currentProject , 58, 8);
+   
+   doc.setFontSize(11);
+   doc.setTextColor(100);
+
+   
+
+   (doc as any).autoTable({
+     head: headi,
+     body: datai,
+     theme: 'grid',
+     startY: 67,
+     headStyles: {
+      minCellHeight: 5, fontSize: 12, fontStyle: 'bold', halign: 'center', text: { minCellWidth: 'wrap' }, lineWidth: 0.02,
+      fillColor: [235, 64, 52],
+      lineColor: [217, 216, 216]
+     },
+     didDrawCell: data => {
+       console.log(data.column.index)
+     }
+   })
+
+   doc.addImage('../../assets/img/logo.png', 11,  8, 40, 40);
+
+
+
+   doc.text('Total Budget: R'+this._globalService.projectOpen.budget_total,12,50);
+   doc.text('Total Spent: R'+this._globalService.ExpenseMade,12,56);
+   doc.text('Total Remaining: R'+this._globalService.BudgetLeft,12,62);
+
+
+    // Download PDF document  
+    doc.save('AHome Project Budget: ' + this._globalService.currentProject +'.pdf');
+  } 
+
+
 
 }
 

@@ -60,5 +60,7 @@ export class GlobalService {
 
   //Expense
   public ExpenseList : ExpenseObj[] = new Array();
+  public ExpenseMade : number = 0 ;
+  public BudgetLeft: number = 0 ;
 
 }

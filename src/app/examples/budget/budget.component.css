@@ -10,5 +10,19 @@ body{
 }
 
 #budgetTable{
-    min-width: 80vw;
+  width: 100%;
+}
+
+#budgetTable td{
+    vertical-align: middle !important;
+}
+
+#budgetSummary{
+    background-color: rgb(39,41,61) !important;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(103, 107, 145);
+    margin: 10px;
+    padding:10px;
+    padding-left:20px;
 }

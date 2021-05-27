@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import {NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import { GlobalService } from "../../global.service";
 import { budgetService } from '../../service/budget.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-budget',
@@ -10,10 +11,16 @@ import { budgetService } from '../../service/budget.service';
 })
 export class BudgetComponent implements OnInit {
 
-  constructor(public _budgetService: budgetService, private modalService: NgbModal, public _globalService : GlobalService) { }
+  public infoAlert : boolean = false; 
+
+  constructor(private router: Router, public _budgetService: budgetService, private modalService: NgbModal, public _globalService : GlobalService) { }
 
   ngOnInit(): void {
+    if(this._globalService.projectOpen == undefined){
+      this.router.navigate(["/project"]) ;
+    }
 
+    var tempVal : number = 0 ;
     var req = {
       "pid": Number(localStorage.getItem("pID"))
     }
@@ -21,14 +28,23 @@ export class BudgetComponent implements OnInit {
     this._globalService.showLoading = true;
 
     this._budgetService.getExpenses(req).subscribe(res =>{
-      this._globalService.showLoading = false; 
 
       this._globalService.ExpenseList = res.results ; 
 
         if(this._globalService.ExpenseList.length == 0){
           this._globalService.showAlert = true ;
           this._globalService.AlertMessage = "Start adding expenses to manage your budget here...";
+        }else{
+          this._globalService.ExpenseMade = 0 ;
+          for(var i = 0 ; i< this._globalService.ExpenseList.length ; i++){
+            if(this._globalService.ExpenseList[i].status == "paid"){
+              this._globalService.ExpenseMade += Number(this._globalService.ExpenseList[i].total) ;
+            }
+          }
+          this._globalService.BudgetLeft = Number(this._globalService.projectOpen.budget_total) - Number(this._globalService.ExpenseMade);
         }
+
+        this._globalService.showLoading = false; 
 
     }, err =>{
       this._globalService.showLoading = false; 
@@ -41,7 +57,61 @@ export class BudgetComponent implements OnInit {
 
   open() {
     const modalRef = this.modalService.open(NgbdModalContent);
-    modalRef.componentInstance.name = 'visual create';
+    modalRef.componentInstance.name = 'expense create';
+  }
+
+  showInfoAlert(){
+    this.infoAlert = true; 
+  }
+
+  removeExpense(eid:any){
+    var req = {
+      "pid": Number(eid)
+    }
+
+    this._globalService.showLoading = true; 
+    this._budgetService.removeExpense(req).subscribe(res =>{
+
+      this._globalService.showAlert = true ; 
+      this._globalService.AlertMessage = res.message ;
+
+      this.updateExpenseList();
+
+    }, err =>{
+      this._globalService.showLoading = false; 
+      console.log(err.error);
+      this._globalService.showAlert = true ; 
+      this._globalService.AlertMessage = "Could not remove expense" ;
+    });
+  }
+
+  updateExpenseList(){
+    var req = {
+      "pid": Number(localStorage.getItem("pID"))
+    }
+
+    this._globalService.showLoading = true;
+
+    this._budgetService.getExpenses(req).subscribe(res =>{
+      this._globalService.showLoading = false; 
+      this._globalService.ExpenseList = res.results ; 
+
+        if(this._globalService.ExpenseList.length == 0){
+          this._globalService.showAlert = true ;
+          this._globalService.AlertMessage = "Start adding expenses to manage your budget here...";
+        }else{
+          this._globalService.ExpenseMade = 0 ;
+          for(var i = 0 ; i< this._globalService.ExpenseList.length ; i++){
+            this._globalService.ExpenseMade += Number(this._globalService.ExpenseList[i].total) ;
+          }
+          this._globalService.BudgetLeft = Number(this._globalService.projectOpen.budget_total) - Number(this._globalService.ExpenseMade);
+          console.log(this._globalService.BudgetLeft);
+        }
+
+    }, err =>{
+      this._globalService.showLoading = false; 
+      console.log(err.error); 
+    });
   }
 
 }
@@ -136,8 +206,16 @@ export class NgbdModalContent {
         if(this._globalService.ExpenseList.length == 0){
           this._globalService.showAlert = true ;
           this._globalService.AlertMessage = "Start adding expenses to manage your budget here...";
+        }else{
+          this._globalService.ExpenseMade = 0 ;
+          for(var i = 0 ; i< this._globalService.ExpenseList.length ; i++){
+            this._globalService.ExpenseMade += Number(this._globalService.ExpenseList[i].total) ;
+          }
+
+          this._globalService.BudgetLeft = Number(this._globalService.projectOpen.budget_total) - Number(this._globalService.ExpenseMade);
+          console.log(this._globalService.BudgetLeft);
         }
-        
+
     }, err =>{
       this._globalService.showLoading = false; 
       console.log(err.error); 

@@ -39,6 +39,7 @@ export class ProjectComponent implements OnInit {
   ngOnInit(): void { 
     this._globalService.TaskList = [];
     this._globalService.VisualList = [];
+    this._globalService.ExpenseList = [];
     this._globalService.currentProject = "AHome"; 
     this._globalService.showLoading = true ; 
     var reqObj = {ac: localStorage.getItem("ac")} ;

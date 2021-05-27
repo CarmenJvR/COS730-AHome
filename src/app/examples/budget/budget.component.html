@@ -48,7 +48,13 @@
                           <tr *ngFor="let e of _globalService.ExpenseList">
                             <td>{{e.description}}</td>
                             <td>R {{e.total}}</td>
-                            <td *ngIf='e.status == "pending"' style="color:indianred;">{{e.status}}</td>
+                            <td *ngIf='e.status == "pending"'  >
+                            
+                              <div placement="left" container="body" ngbTooltip="Pay Expense" style="color:indianred;border:solid;border-width: 1px;
+                              border-color: rgb(103, 107, 145);cursor: pointer;margin:5px;padding:5px;" (click)="payExpense(e.id)">
+                                {{e.status}}
+                              </div>
+                            </td>
                             <td *ngIf='e.status == "paid"' style="color:darkturquoise">{{e.status}}</td>
                             <td>
                                 <button type="button"  class="btn btn-dark btn-just-icon" 

@@ -102,7 +102,9 @@ export class BudgetComponent implements OnInit {
         }else{
           this._globalService.ExpenseMade = 0 ;
           for(var i = 0 ; i< this._globalService.ExpenseList.length ; i++){
-            this._globalService.ExpenseMade += Number(this._globalService.ExpenseList[i].total) ;
+            if(this._globalService.ExpenseList[i].status == "paid"){
+              this._globalService.ExpenseMade += Number(this._globalService.ExpenseList[i].total) ;
+            }
           }
           this._globalService.BudgetLeft = Number(this._globalService.projectOpen.budget_total) - Number(this._globalService.ExpenseMade);
           console.log(this._globalService.BudgetLeft);
@@ -111,6 +113,28 @@ export class BudgetComponent implements OnInit {
     }, err =>{
       this._globalService.showLoading = false; 
       console.log(err.error); 
+    });
+  }
+
+  payExpense(eid:any){
+    var req = {
+      "status": "paid",
+      "eid": Number(eid)
+    }
+
+    this._globalService.showLoading = true; 
+    this._budgetService.updateExpense(req).subscribe(res =>{
+
+      this._globalService.showAlert = true ; 
+      this._globalService.AlertMessage = res.message ;
+
+      this.updateExpenseList();
+
+    }, err =>{
+      this._globalService.showLoading = false; 
+      console.log(err.error);
+      this._globalService.showAlert = true ; 
+      this._globalService.AlertMessage = "Could not update expense" ;
     });
   }
 
@@ -209,8 +233,10 @@ export class NgbdModalContent {
         }else{
           this._globalService.ExpenseMade = 0 ;
           for(var i = 0 ; i< this._globalService.ExpenseList.length ; i++){
-            this._globalService.ExpenseMade += Number(this._globalService.ExpenseList[i].total) ;
-          }
+            if(this._globalService.ExpenseList[i].status == "paid"){
+              this._globalService.ExpenseMade += Number(this._globalService.ExpenseList[i].total) ;
+            }
+           }
 
           this._globalService.BudgetLeft = Number(this._globalService.projectOpen.budget_total) - Number(this._globalService.ExpenseMade);
           console.log(this._globalService.BudgetLeft);

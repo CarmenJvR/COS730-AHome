@@ -45,6 +45,15 @@ export class budgetService
         return this.httpClient.post('https://a-home.herokuapp.com/removeExpense', PostData, options );
       }
 
+      updateExpense(PostData): Observable<any>{
+        const options = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+          }) 
+        };
+        return this.httpClient.post('https://a-home.herokuapp.com/updateExpense', PostData, options );
+      }
+
   
 
 }

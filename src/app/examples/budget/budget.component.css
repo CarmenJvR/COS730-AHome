@@ -1,0 +1,14 @@
+body{
+    background-color: rgb(31,31,47);
+    padding-top:100px;
+    height: auto;
+    min-height: 100vh;
+}
+
+.card-body{
+    background-color: rgb(39,41,61) !important;
+}
+
+#budgetTable{
+    min-width: 80vw;
+}

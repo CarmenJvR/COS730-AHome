@@ -1,1 +1,45 @@
-<p>budget works!</p>
+<body>
+    <div class="container" >
+        <div class="row">
+            <div class="col-lg-11 col-md-8 col-sm-12">
+                <div class="row">
+                  <div class="col-12">
+                    <div *ngIf="_globalService.showAlert" class="alert alert-danger" role="alert"  >
+                        <div  >    
+                          <a class="nav-link" href="#" style="float:right;" (click)="this._globalService.showAlert=false"><i class="fa fa-close" aria-hidden="true"></i></a>
+                      </div>
+                        <p class="typography" style="text-align: center;"> {{_globalService.AlertMessage}} </p>
+                      </div>
+                  </div>
+                  <div class="col-lg-4 col-md-3 col-sm-1" >  
+                    <table class="table table-dark table-hover" id="budgetTable" *ngIf="_globalService.ExpenseList.length != 0">
+                        <thead >
+                          <tr>
+                            <th scope="col">Description</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let e of _globalService.ExpenseList">
+                            <td>{{e.description}}</td>
+                            <td>{{e.total}}</td>
+                            <td>{{e.status}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                  </div>
+                </div>
+            </div>
+            <div class="col">
+                <button type="button" style="position:fixed;" class="btn btn-danger btn-just-icon" 
+                type="button" ngbTooltip="Add Expense" container="body" placement="right" (click)="open()">
+                <i class="nc-icon nc-simple-add"></i>
+                </button>
+              
+            </div>
+  
+          </div>
+          
+    </div>
+</body>

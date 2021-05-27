@@ -39,6 +39,7 @@ export class ProjectComponent implements OnInit {
   ngOnInit(): void { 
     this._globalService.TaskList = [];
     this._globalService.VisualList = [];
+    this._globalService.ExpenseList = [];
     this._globalService.currentProject = "AHome"; 
     this._globalService.showLoading = true ; 
     var reqObj = {ac: localStorage.getItem("ac")} ;
@@ -64,10 +65,18 @@ export class ProjectComponent implements OnInit {
     this._globalService.currentViewTabs = false;
   }
 
-  selectProject(proID : any, proName: any){
+  selectProject(proID : any, proName: any, proStart:any, proEnd:any, proBudget:any){
       console.log(proID);
       localStorage.setItem("pID",proID);
       this._globalService.currentProject = proName ; 
+      this._globalService.projectOpen ={
+        id : proID,
+        account_id: Number(localStorage.getItem("ac")),
+        name : proName,
+        start_date: proStart,
+        end_date: proEnd,
+        budget_total: proBudget
+      }
       this.router.navigate(["/task"]) ;
   }
 

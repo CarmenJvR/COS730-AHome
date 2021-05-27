@@ -21,6 +21,13 @@ export interface ProjectObj {
     name: string;
     image : string; 
   }
+
+  export interface ExpenseObj{
+    id: number ;
+    description: string;
+    total: number;
+    status: string ;
+  }
   
 
 
@@ -42,6 +49,7 @@ export class GlobalService {
   //Project
   ProjectList : ProjectObj[] = new Array();
   public currentProject : string = "AHome" ; 
+  public projectOpen : ProjectObj ; 
 
   //Task
   public TaskList : TaskObj[] = new Array(); 
@@ -49,5 +57,10 @@ export class GlobalService {
 
   //Visual
   public VisualList : BoardObj[] = new Array();
+
+  //Expense
+  public ExpenseList : ExpenseObj[] = new Array();
+  public ExpenseMade : number = 0 ;
+  public BudgetLeft: number = 0 ;
 
 }

@@ -1,0 +1,28 @@
+body{
+    background-color: rgb(31,31,47);
+    padding-top:100px;
+    height: auto;
+    min-height: 100vh;
+}
+
+.card-body{
+    background-color: rgb(39,41,61) !important;
+}
+
+#budgetTable{
+  width: 100%;
+}
+
+#budgetTable td{
+    vertical-align: middle !important;
+}
+
+#budgetSummary{
+    background-color: rgb(39,41,61) !important;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(103, 107, 145);
+    margin: 10px;
+    padding:10px;
+    padding-left:20px;
+}

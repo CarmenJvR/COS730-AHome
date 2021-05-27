@@ -19,6 +19,7 @@ import { accountService } from './service/account.service';
 import { projectService } from './service/project.service';
 import { taskService } from './service/task.service';
 import { visualService } from './service/visual.service';
+import { budgetService } from './service/budget.service';
 
 //Global
 import { GlobalService } from './global.service';
@@ -44,6 +45,7 @@ import { GlobalService } from './global.service';
     projectService,
     taskService,
     visualService,
+    budgetService,
     GlobalService,
   ],
   bootstrap: [AppComponent]

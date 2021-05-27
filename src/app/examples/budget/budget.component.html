@@ -1,1 +1,88 @@
-<p>budget works!</p>
+<body>
+    <div class="container" style="margin-left: 20px;margin-right: 20px;" >
+        <div class="row" style="padding:0px;margin:0;margin-right:-100px;">
+            <div class="col-lg-11 col-md-8 col-sm-12">
+                <div class="row" style="padding:0px;margin:0;">
+                  <div class="col-12">
+                    <div *ngIf="infoAlert" class="alert alert-dark" color="primary" style="text-align: center;" role="alert"  >
+                        <div  >    
+                          <a class="nav-link" href="#" style="float:right;" (click)="infoAlert=false"><i class="fa fa-close" aria-hidden="true"></i></a>
+                      </div>
+                        <p class="typography" style="text-align: center;color:black;"> 
+                            <b>Budget Management Made Easy</b> <br>
+                            Add all your expenses in this easy to use spreadsheet.
+                            Expenses can have a status of Paid or Pending payment. <br>
+                            Only expenses with a Paid status will be subtracted from the budget total. 
+                        </p>
+                      </div>
+                    <div *ngIf="_globalService.showAlert" class="alert alert-danger" role="alert"  >
+                        <div  >    
+                          <a class="nav-link" href="#" style="float:right;" (click)="this._globalService.showAlert=false"><i class="fa fa-close" aria-hidden="true"></i></a>
+                      </div>
+                        <p class="typography" style="text-align: center;"> {{_globalService.AlertMessage}} </p>
+                      </div>
+                     
+                  </div>
+                  <div class="col-lg-3 col-md-12">
+                    <div id="budgetSummary" style="position:fixed;">
+                        <p class="typography" style="color:white;">
+                            <label style="text-decoration: underline;padding:5px;">Budget Summary</label><br>
+                            Budget: R {{_globalService.projectOpen.budget_total}}  <br>
+                            Spent: R {{_globalService.ExpenseMade}} <br>
+                            Remaining Budget: <label *ngIf="_globalService.BudgetLeft > 0" style="color:darkturquoise">R {{_globalService.BudgetLeft}} </label>
+                            <label *ngIf="_globalService.BudgetLeft <= 0" style="color:indianred">R {{_globalService.BudgetLeft}} </label>
+                        </p>
+                      </div>
+                  </div>
+                  <div class="col-lg-9 col-md-12 col-sm-12" >  
+                    <table class="table table-dark table-hover" id="budgetTable" *ngIf="_globalService.ExpenseList.length != 0">
+                        <thead >
+                          <tr>
+                            <th class="typography" scope="col">Description</th>
+                            <th class="typography" scope="col">Total</th>
+                            <th class="typography" scope="col">Status</th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody class="typography" >
+                          <tr *ngFor="let e of _globalService.ExpenseList">
+                            <td>{{e.description}}</td>
+                            <td>R {{e.total}}</td>
+                            <td *ngIf='e.status == "pending"'  >
+                            
+                              <div placement="left" container="body" ngbTooltip="Pay Expense" style="color:indianred;border:solid;border-width: 1px;
+                              border-color: rgb(103, 107, 145);cursor: pointer;margin:5px;padding:5px;" (click)="payExpense(e.id)">
+                                {{e.status}}
+                              </div>
+                            </td>
+                            <td *ngIf='e.status == "paid"' style="color:darkturquoise">{{e.status}}</td>
+                            <td>
+                                <button type="button"  class="btn btn-dark btn-just-icon" 
+                                    type="button" container="body" ngbTooltip="Remove Expense" placement="right" (click)="removeExpense(e.id)" >
+                                    <i class="fa fa-trash-o"></i>
+                                </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                  </div>
+                </div>
+            </div>
+            <div class="col">
+                <button type="button" style="position:fixed;" class="btn btn-danger btn-just-icon" 
+                type="button" ngbTooltip="Add Expense" container="body" placement="right" (click)="open()">
+                <i class="nc-icon nc-simple-add"></i>
+                </button>
+                <button type="button" style="position:fixed;margin-top: 50px;" ngbTooltip="Help" container="body" placement="right" class="btn btn-danger btn-just-icon" (click)="showInfoAlert()">
+                    <i class="fa fa-info"></i>
+                  </button>
+                  <button type="button" style="position:fixed;margin-top: 100px;" ngbTooltip="Download Spreadsheet" container="body" placement="right" class="btn btn-danger btn-just-icon" (click)="downloadPDF()">
+                    <i class="fa fa-download"></i>
+                  </button>
+              
+            </div>
+  
+          </div>
+          
+    </div>
+</body>

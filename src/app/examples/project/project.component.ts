@@ -42,6 +42,7 @@ export class ProjectComponent implements OnInit {
     this._globalService.ExpenseList = [];
     this._globalService.currentProject = "AHome"; 
     this._globalService.showLoading = true ; 
+    localStorage.removeItem('pID') ;
     var reqObj = {ac: localStorage.getItem("ac")} ;
 
       this._projectService.getProjectList(reqObj).subscribe(res =>{

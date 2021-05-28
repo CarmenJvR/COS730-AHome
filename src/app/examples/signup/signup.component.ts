@@ -40,6 +40,11 @@ export class SignupComponent implements OnInit {
         this.login= true ;
         this.register = false ;
         this.guestLogin = false; 
+
+        localStorage.removeItem('accessToken') ;
+        localStorage.removeItem('ac') ;
+        localStorage.removeItem('pID') ;
+        localStorage.removeItem('alert') ;
     }
 
     ionViewWillEnter(){
@@ -57,11 +62,11 @@ export class SignupComponent implements OnInit {
 
     onLogin( ){
         this.showAlert = false ;
-        console.log(this.userObj);
-
+        
+        this._globalService.showLoading = true;
         this._accountService.loginUser(this.userObj).subscribe(res => {
-            console.log(res);
-            
+           
+            this._globalService.showLoading = false;
 
             if(res.message){
                 this.alertMessage = res.message ;
@@ -74,6 +79,7 @@ export class SignupComponent implements OnInit {
             }
 
         },err =>{
+            this._globalService.showLoading = false;
             console.log(err.error);
         });
     }
@@ -81,11 +87,11 @@ export class SignupComponent implements OnInit {
 
     onRegister( ){
         this.showAlert = false ;
-        console.log(this.userObj);
-
+        
+        this._globalService.showLoading = true;
         this._accountService.registerUser(this.userObj).subscribe(res => {
-            console.log(res);
-
+            
+            this._globalService.showLoading = false;
             if(res.message){
                 this.alertMessage = res.message ;
                 this.showAlert = true ;
@@ -98,6 +104,7 @@ export class SignupComponent implements OnInit {
             }
 
         },err =>{
+            this._globalService.showLoading = false;
             console.log(err.error);
         });
     }

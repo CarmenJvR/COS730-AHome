@@ -20,6 +20,7 @@ import { projectService } from './service/project.service';
 import { taskService } from './service/task.service';
 import { visualService } from './service/visual.service';
 import { budgetService } from './service/budget.service';
+import { eventService } from './service/event.service';
 
 //Global
 import { GlobalService } from './global.service';
@@ -46,6 +47,7 @@ import { GlobalService } from './global.service';
     taskService,
     visualService,
     budgetService,
+    eventService,
     GlobalService,
   ],
   bootstrap: [AppComponent]

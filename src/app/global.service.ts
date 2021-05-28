@@ -38,6 +38,14 @@ export interface ProjectObj {
     end_time : Time ;
     description : string ; 
   }
+
+  export interface ScheduleObj2{
+    id: number ;
+    start_date : string;
+    start_time : Time ;
+    end_time : Time ;
+    description : string ; 
+  }
   
 
 
@@ -76,17 +84,17 @@ export class GlobalService {
   //schedule
   public ScheduleList : ScheduleObj[] = new Array(); 
   
-  public JanuaryList : ScheduleObj[] = new Array(); 
-  public FebruaryList : ScheduleObj[] = new Array();
-  public MarchList : ScheduleObj[] = new Array();
-  public AprilList : ScheduleObj[] = new Array();
-  public MayList : ScheduleObj[] = new Array();
-  public JuneList : ScheduleObj[] = new Array();
-  public JulyList : ScheduleObj[] = new Array();
-  public AugustList : ScheduleObj[] = new Array();
-  public SeptemberList : ScheduleObj[] = new Array();
-  public OctoberList : ScheduleObj[] = new Array();
-  public NovemberList : ScheduleObj[] = new Array();
-  public DecemberList : ScheduleObj[] = new Array();
+  public JanuaryList : ScheduleObj2[] = new Array(); 
+  public FebruaryList : ScheduleObj2[] = new Array();
+  public MarchList : ScheduleObj2[] = new Array();
+  public AprilList : ScheduleObj2[] = new Array();
+  public MayList : ScheduleObj2[] = new Array();
+  public JuneList : ScheduleObj2[] = new Array();
+  public JulyList : ScheduleObj2[] = new Array();
+  public AugustList : ScheduleObj2[] = new Array();
+  public SeptemberList : ScheduleObj2[] = new Array();
+  public OctoberList : ScheduleObj2[] = new Array();
+  public NovemberList : ScheduleObj2[] = new Array();
+  public DecemberList : ScheduleObj2[] = new Array();
 
 }

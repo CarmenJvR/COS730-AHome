@@ -2,99 +2,192 @@
     <div class="container" >
         <div class="row">
             <div class="col-lg-11 col-md-11 col-12">
+                <div *ngIf="_globalService.showAlert" class="alert alert-danger" role="alert"  >
+                    <div  >    
+                      <a class="nav-link" href="#" style="float:right;" (click)="this._globalService.showAlert=false"><i class="fa fa-close" aria-hidden="true"></i></a>
+                  </div>
+                    <p class="typography" style="text-align: center;"> {{_globalService.AlertMessage}} </p>
+                  </div>
                 <div class="monthDiv">
                     <h6>January</h6>
-                    <div *ngFor="let e of _globalService.JanuaryList">
-                        <span  class="label label-info">
-                            {{e.start_date}} [{{e.start_time}}-{{e.end_time}}] : {{e.description}} 
+                    <div *ngFor="let e of _globalService.JanuaryList" class="labelDiv">
+                        <span  class="label label-info" *ngIf="todayMonth <= 1">
+                           <label class="eventDateLabel"> {{e.start_date}} </label><label class="eventDescLabel">• {{e.description}}  </label><label class="eventTimeLabel">{{e.start_time}} - {{e.end_time}} <button type="button"  class="btn btn-dark btn-just-icon" 
+                            type="button" container="body" ngbTooltip="Remove Event" placement="right" (click)="removeEvent(e.id)" >
+                            <i class="fa fa-trash-o"></i>
+                    </button> 
+                </label>
                         </span>
+                        <span  class="label label-default" *ngIf="todayMonth > 1">
+                            <label class="eventDateLabel"> {{e.start_date}} </label><label class="eventDescLabel">• {{e.description}}  </label><label class="eventTimeLabel">{{e.start_time}} - {{e.end_time}}</label> 
+                         </span>
                     </div>
                 </div>
                 <div class="monthDiv">
                     <h6>February</h6>
-                    <div *ngFor="let e of _globalService.FebruaryList">
-                        <span  class="label label-info">
-                            {{e.start_date}} [{{e.start_time}}-{{e.end_time}}] : {{e.description}} 
+                    <div *ngFor="let e of _globalService.FebruaryList" class="labelDiv">
+                        <span  class="label label-info" *ngIf="todayMonth <= 2">
+                           <label class="eventDateLabel"> {{e.start_date}} </label><label class="eventDescLabel">• {{e.description}}  </label><label class="eventTimeLabel">{{e.start_time}} - {{e.end_time}} 
+                            <button type="button"  class="btn btn-dark btn-just-icon" 
+                            type="button" container="body" ngbTooltip="Remove Event" placement="right" (click)="removeEvent(e.id)" >
+                            <i class="fa fa-trash-o"></i>
+                    </button> 
+                           </label> 
                         </span>
+                        <span  class="label label-default" *ngIf="todayMonth > 2">
+                            <label class="eventDateLabel"> {{e.start_date}} </label><label class="eventDescLabel">• {{e.description}}  </label><label class="eventTimeLabel">{{e.start_time}} - {{e.end_time}}</label> 
+                         </span>
                     </div>
                 </div>
                 <div class="monthDiv">
                     <h6>March</h6>
-                    <div *ngFor="let e of _globalService.MarchList">
-                        <span  class="label label-info">
-                            {{e.start_date}} [{{e.start_time}}-{{e.end_time}}] : {{e.description}} 
+                    <div *ngFor="let e of _globalService.MarchList" class="labelDiv">
+                        <span  class="label label-info" *ngIf="todayMonth <= 3">
+                           <label class="eventDateLabel"> {{e.start_date}} </label><label class="eventDescLabel">• {{e.description}}  </label><label class="eventTimeLabel">{{e.start_time}} - {{e.end_time}}
+                            <button type="button"  class="btn btn-dark btn-just-icon" 
+                            type="button" container="body" ngbTooltip="Remove Event" placement="right" (click)="removeEvent(e.id)" >
+                            <i class="fa fa-trash-o"></i>
+                    </button> 
+                           </label> 
                         </span>
+                        <span  class="label label-default" *ngIf="todayMonth > 3">
+                            <label class="eventDateLabel"> {{e.start_date}} </label><label class="eventDescLabel">• {{e.description}}  </label><label class="eventTimeLabel">{{e.start_time}} - {{e.end_time}}</label> 
+                         </span>
                     </div>
                 </div>
                 <div class="monthDiv">
                     <h6>April</h6>
-                    <div *ngFor="let e of _globalService.AprilList">
-                        <span  class="label label-info">
-                            {{e.start_date}} [{{e.start_time}}-{{e.end_time}}] : {{e.description}} 
+                    <div *ngFor="let e of _globalService.AprilList" class="labelDiv">
+                        <span  class="label label-info" *ngIf="todayMonth <= 4">
+                           <label class="eventDateLabel"> {{e.start_date}} </label><label class="eventDescLabel">• {{e.description}}  </label><label class="eventTimeLabel">{{e.start_time}} - {{e.end_time}} 
+                            <button type="button"  class="btn btn-dark btn-just-icon" 
+                            type="button" container="body" ngbTooltip="Remove Event" placement="right" (click)="removeEvent(e.id)" >
+                            <i class="fa fa-trash-o"></i>
+                    </button> 
+                           </label> 
                         </span>
+                        <span  class="label label-default" *ngIf="todayMonth > 4">
+                            <label class="eventDateLabel"> {{e.start_date}} </label><label class="eventDescLabel">• {{e.description}}  </label><label class="eventTimeLabel">{{e.start_time}} - {{e.end_time}}</label> 
+                         </span>
                     </div>
                 </div>
                 <div class="monthDiv">
                     <h6>May</h6>
-                    <div *ngFor="let e of _globalService.MayList">
-                        <span  class="label label-info">
-                            {{e.start_date}} [{{e.start_time}}-{{e.end_time}}] : {{e.description}} 
+                    <div *ngFor="let e of _globalService.MayList" class="labelDiv">
+                        <span  class="label label-info" *ngIf="todayMonth <= 5">
+                           <label class="eventDateLabel"> {{e.start_date}} </label><label class="eventDescLabel">• {{e.description}}  </label><label class="eventTimeLabel">{{e.start_time}} - {{e.end_time}} 
+                            <button type="button"  class="btn btn-dark btn-just-icon" 
+                            type="button" container="body" ngbTooltip="Remove Event" placement="right" (click)="removeEvent(e.id)" >
+                            <i class="fa fa-trash-o"></i>
+                    </button> 
+                           </label> 
                         </span>
+                        <span  class="label label-default" *ngIf="todayMonth > 5">
+                            <label class="eventDateLabel"> {{e.start_date}} </label><label class="eventDescLabel">• {{e.description}}  </label><label class="eventTimeLabel">{{e.start_time}} - {{e.end_time}}</label> 
+                         </span>
                     </div>
                 </div>
                 <div class="monthDiv">
                     <h6>June</h6>
-                    <div *ngFor="let e of _globalService.JuneList">
-                        <span  class="label label-info">
-                            {{e.start_date}} [{{e.start_time}}-{{e.end_time}}] : {{e.description}} 
+                    <div *ngFor="let e of _globalService.JuneList" class="labelDiv">
+                        <span  class="label label-info" *ngIf="todayMonth <= 6">
+                           <label class="eventDateLabel"> {{e.start_date}} </label><label class="eventDescLabel">• {{e.description}}  </label><label class="eventTimeLabel">{{e.start_time}} - {{e.end_time}} 
+                            <button type="button"  class="btn btn-dark btn-just-icon" 
+                            type="button" container="body" ngbTooltip="Remove Event" placement="right" (click)="removeEvent(e.id)" >
+                            <i class="fa fa-trash-o"></i>
+                    </button> 
+                           </label> 
                         </span>
+                        <span  class="label label-default" *ngIf="todayMonth > 6">
+                            <label class="eventDateLabel"> {{e.start_date}} </label><label class="eventDescLabel">• {{e.description}}  </label><label class="eventTimeLabel">{{e.start_time}} - {{e.end_time}}</label> 
+                         </span>
                     </div>
                 </div>
                 <div class="monthDiv">
                     <h6>July</h6>
-                    <div *ngFor="let e of _globalService.JulyList">
-                        <span  class="label label-info">
-                            {{e.start_date}} [{{e.start_time}}-{{e.end_time}}] : {{e.description}} 
+                    <div *ngFor="let e of _globalService.JulyList" class="labelDiv">
+                        <span  class="label label-info" *ngIf="todayMonth <= 7">
+                           <label class="eventDateLabel"> {{e.start_date}} </label><label class="eventDescLabel">• {{e.description}}  </label><label class="eventTimeLabel">{{e.start_time}} - {{e.end_time}} 
+                            <button type="button"  class="btn btn-dark btn-just-icon" 
+                            type="button" container="body" ngbTooltip="Remove Event" placement="right" (click)="removeEvent(e.id)" >
+                            <i class="fa fa-trash-o"></i>
+                    </button> 
+                           </label> 
                         </span>
+                        <span  class="label label-default" *ngIf="todayMonth > 7">
+                            <label class="eventDateLabel"> {{e.start_date}} </label><label class="eventDescLabel">• {{e.description}}  </label><label class="eventTimeLabel">{{e.start_time}} - {{e.end_time}}</label> 
+                         </span>
                     </div>
                 </div>
                 <div class="monthDiv">
                     <h6>August</h6>
-                    <div *ngFor="let e of _globalService.AugustList">
-                        <span  class="label label-info">
-                            {{e.start_date}} [{{e.start_time}}-{{e.end_time}}] : {{e.description}} 
+                    <div *ngFor="let e of _globalService.AugustList" class="labelDiv">
+                        <span  class="label label-info" *ngIf="todayMonth <= 8">
+                           <label class="eventDateLabel"> {{e.start_date}} </label><label class="eventDescLabel">• {{e.description}}  </label><label class="eventTimeLabel">{{e.start_time}} - {{e.end_time}} 
+                            <button type="button"  class="btn btn-dark btn-just-icon" 
+                            type="button" container="body" ngbTooltip="Remove Event" placement="right" (click)="removeEvent(e.id)" >
+                            <i class="fa fa-trash-o"></i>
+                    </button> 
+                           </label> 
                         </span>
+                        <span  class="label label-default" *ngIf="todayMonth > 8">
+                            <label class="eventDateLabel"> {{e.start_date}} </label><label class="eventDescLabel">• {{e.description}}  </label><label class="eventTimeLabel">{{e.start_time}} - {{e.end_time}}</label> 
+                         </span>
                     </div>
                 </div>
                 <div class="monthDiv">
                     <h6>September</h6>
-                    <div *ngFor="let e of _globalService.SeptemberList">
-                        <span  class="label label-info">
-                            {{e.start_date}} [{{e.start_time}}-{{e.end_time}}] : {{e.description}} 
+                    <div *ngFor="let e of _globalService.SeptemberList" class="labelDiv">
+                        <span  class="label label-info" *ngIf="todayMonth <= 9">
+                           <label class="eventDateLabel"> {{e.start_date}} </label><label class="eventDescLabel">• {{e.description}}  </label><label class="eventTimeLabel">{{e.start_time}} - {{e.end_time}}
+                            <button type="button"  class="btn btn-dark btn-just-icon" 
+                            type="button" container="body" ngbTooltip="Remove Event" placement="right" (click)="removeEvent(e.id)" >
+                            <i class="fa fa-trash-o"></i>
+                    </button> 
+                           </label> 
                         </span>
+                        <span  class="label label-default" *ngIf="todayMonth > 9">
+                            <label class="eventDateLabel"> {{e.start_date}} </label><label class="eventDescLabel">• {{e.description}}  </label><label class="eventTimeLabel">{{e.start_time}} - {{e.end_time}}</label> 
+                         </span>
                     </div>
                 </div>
                 <div class="monthDiv">
                     <h6>October</h6>
-                    <div *ngFor="let e of _globalService.OctoberList">
-                        <span  class="label label-info">
-                            {{e.start_date}} [{{e.start_time}}-{{e.end_time}}] : {{e.description}} 
+                    <div *ngFor="let e of _globalService.OctoberList" class="labelDiv">
+                        <span  class="label label-info" *ngIf="todayMonth <= 10">
+                           <label class="eventDateLabel"> {{e.start_date}} </label><label class="eventDescLabel">• {{e.description}}  </label><label class="eventTimeLabel">{{e.start_time}} - {{e.end_time}}
+                            <button type="button"  class="btn btn-dark btn-just-icon" 
+                            type="button" container="body" ngbTooltip="Remove Event" placement="right" (click)="removeEvent(e.id)" >
+                            <i class="fa fa-trash-o"></i>
+                    </button> 
+                           </label> 
                         </span>
+                        <span  class="label label-default" *ngIf="todayMonth > 10">
+                            <label class="eventDateLabel"> {{e.start_date}} </label><label class="eventDescLabel">• {{e.description}}  </label><label class="eventTimeLabel">{{e.start_time}} - {{e.end_time}}</label> 
+                         </span>
                     </div>
                 </div>
                 <div class="monthDiv">
                     <h6>Novermber</h6>
-                    <div *ngFor="let e of _globalService.NovemberList">
-                        <span  class="label label-info">
-                            {{e.start_date}} [{{e.start_time}}-{{e.end_time}}] : {{e.description}} 
+                    <div *ngFor="let e of _globalService.NovemberList" class="labelDiv">
+                        <span  class="label label-info" *ngIf="todayMonth <= 11">
+                           <label class="eventDateLabel"> {{e.start_date}} </label><label class="eventDescLabel">• {{e.description}}  </label><label class="eventTimeLabel">{{e.start_time}} - {{e.end_time}}
+                            <button type="button"  class="btn btn-dark btn-just-icon" 
+                            type="button" container="body" ngbTooltip="Remove Event" placement="right" (click)="removeEvent(e.id)" >
+                            <i class="fa fa-trash-o"></i>
+                    </button> 
+                           </label> 
                         </span>
+                        <span  class="label label-default" *ngIf="todayMonth > 11">
+                            <label class="eventDateLabel"> {{e.start_date}} </label><label class="eventDescLabel">• {{e.description}}  </label><label class="eventTimeLabel">{{e.start_time}} - {{e.end_time}}</label> 
+                         </span>
                     </div>
                 </div>
                 <div class="monthDiv">
                     <h6>December</h6>
-                    <div *ngFor="let e of _globalService.DecemberList">
-                        <span  class="label label-info">
-                            {{e.start_date}} [{{e.start_time}}-{{e.end_time}}] : {{e.description}} 
+                    <div *ngFor="let e of _globalService.DecemberList" class="labelDiv">
+                        <span  class="label label-info" *ngIf="todayMonth <= 12">
+                           <label class="eventDateLabel"> {{e.start_date}} </label><label class="eventDescLabel">• {{e.description}}  </label><label class="eventTimeLabel">{{e.start_time}} - {{e.end_time}}</label> 
                         </span>
                     </div>
                 </div>

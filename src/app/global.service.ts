@@ -1,3 +1,4 @@
+import { Time } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -27,6 +28,15 @@ export interface ProjectObj {
     description: string;
     total: number;
     status: string ;
+  }
+
+  export interface ScheduleObj{
+    id: number ;
+    start_date : Date;
+    end_date : Date ;
+    start_time : Time ;
+    end_time : Time ;
+    description : string ; 
   }
   
 
@@ -62,5 +72,21 @@ export class GlobalService {
   public ExpenseList : ExpenseObj[] = new Array();
   public ExpenseMade : number = 0 ;
   public BudgetLeft: number = 0 ;
+
+  //schedule
+  public ScheduleList : ScheduleObj[] = new Array(); 
+  
+  public JanuaryList : ScheduleObj[] = new Array(); 
+  public FebruaryList : ScheduleObj[] = new Array();
+  public MarchList : ScheduleObj[] = new Array();
+  public AprilList : ScheduleObj[] = new Array();
+  public MayList : ScheduleObj[] = new Array();
+  public JuneList : ScheduleObj[] = new Array();
+  public JulyList : ScheduleObj[] = new Array();
+  public AugustList : ScheduleObj[] = new Array();
+  public SeptemberList : ScheduleObj[] = new Array();
+  public OctoberList : ScheduleObj[] = new Array();
+  public NovemberList : ScheduleObj[] = new Array();
+  public DecemberList : ScheduleObj[] = new Array();
 
 }

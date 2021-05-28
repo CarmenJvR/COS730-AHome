@@ -1,0 +1,30 @@
+body{
+    background-color: rgb(31,31,47);
+    padding-top:100px;
+    height: auto;
+    min-height: 100vh;
+}
+
+.card-body{
+    background-color: rgb(39,41,61) !important;
+}
+
+.label-danger{
+    padding: 10px !important;
+    display: block;
+}
+
+.monthDiv{
+    background-color: rgb(39,41,61) !important;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(103, 107, 145);
+    margin: 20px;
+    padding:10px;
+    min-height: 10vh;
+    width: 100%;
+}
+
+.monthDiv h6{
+    color: white ;
+}

@@ -1,1 +1,114 @@
-<p>schedule works!</p>
+<body>
+    <div class="container" >
+        <div class="row">
+            <div class="col-lg-11 col-md-11 col-12">
+                <div class="monthDiv">
+                    <h6>January</h6>
+                    <div *ngFor="let e of _globalService.JanuaryList">
+                        <span  class="label label-info">
+                            {{e.start_date}} [{{e.start_time}}-{{e.end_time}}] : {{e.description}} 
+                        </span>
+                    </div>
+                </div>
+                <div class="monthDiv">
+                    <h6>February</h6>
+                    <div *ngFor="let e of _globalService.FebruaryList">
+                        <span  class="label label-info">
+                            {{e.start_date}} [{{e.start_time}}-{{e.end_time}}] : {{e.description}} 
+                        </span>
+                    </div>
+                </div>
+                <div class="monthDiv">
+                    <h6>March</h6>
+                    <div *ngFor="let e of _globalService.MarchList">
+                        <span  class="label label-info">
+                            {{e.start_date}} [{{e.start_time}}-{{e.end_time}}] : {{e.description}} 
+                        </span>
+                    </div>
+                </div>
+                <div class="monthDiv">
+                    <h6>April</h6>
+                    <div *ngFor="let e of _globalService.AprilList">
+                        <span  class="label label-info">
+                            {{e.start_date}} [{{e.start_time}}-{{e.end_time}}] : {{e.description}} 
+                        </span>
+                    </div>
+                </div>
+                <div class="monthDiv">
+                    <h6>May</h6>
+                    <div *ngFor="let e of _globalService.MayList">
+                        <span  class="label label-info">
+                            {{e.start_date}} [{{e.start_time}}-{{e.end_time}}] : {{e.description}} 
+                        </span>
+                    </div>
+                </div>
+                <div class="monthDiv">
+                    <h6>June</h6>
+                    <div *ngFor="let e of _globalService.JuneList">
+                        <span  class="label label-info">
+                            {{e.start_date}} [{{e.start_time}}-{{e.end_time}}] : {{e.description}} 
+                        </span>
+                    </div>
+                </div>
+                <div class="monthDiv">
+                    <h6>July</h6>
+                    <div *ngFor="let e of _globalService.JulyList">
+                        <span  class="label label-info">
+                            {{e.start_date}} [{{e.start_time}}-{{e.end_time}}] : {{e.description}} 
+                        </span>
+                    </div>
+                </div>
+                <div class="monthDiv">
+                    <h6>August</h6>
+                    <div *ngFor="let e of _globalService.AugustList">
+                        <span  class="label label-info">
+                            {{e.start_date}} [{{e.start_time}}-{{e.end_time}}] : {{e.description}} 
+                        </span>
+                    </div>
+                </div>
+                <div class="monthDiv">
+                    <h6>September</h6>
+                    <div *ngFor="let e of _globalService.SeptemberList">
+                        <span  class="label label-info">
+                            {{e.start_date}} [{{e.start_time}}-{{e.end_time}}] : {{e.description}} 
+                        </span>
+                    </div>
+                </div>
+                <div class="monthDiv">
+                    <h6>October</h6>
+                    <div *ngFor="let e of _globalService.OctoberList">
+                        <span  class="label label-info">
+                            {{e.start_date}} [{{e.start_time}}-{{e.end_time}}] : {{e.description}} 
+                        </span>
+                    </div>
+                </div>
+                <div class="monthDiv">
+                    <h6>Novermber</h6>
+                    <div *ngFor="let e of _globalService.NovemberList">
+                        <span  class="label label-info">
+                            {{e.start_date}} [{{e.start_time}}-{{e.end_time}}] : {{e.description}} 
+                        </span>
+                    </div>
+                </div>
+                <div class="monthDiv">
+                    <h6>December</h6>
+                    <div *ngFor="let e of _globalService.DecemberList">
+                        <span  class="label label-info">
+                            {{e.start_date}} [{{e.start_time}}-{{e.end_time}}] : {{e.description}} 
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <button type="button" style="position:fixed;" ngbTooltip="Create Event" container="body" placement="right" class="btn btn-info btn-just-icon" (click)="open()">
+                  <i class="fa fa-plus"></i>
+                </button>
+              </div>
+
+        </div>
+        
+          
+    </div>
+
+    
+</body>

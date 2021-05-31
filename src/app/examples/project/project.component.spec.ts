@@ -81,6 +81,11 @@ describe('ProjectComponent', () => {
     expect(projService.getProjectList).toHaveBeenCalledWith(test2);
   });
 
+  it('Testing SelectProject()', () => {
+    expect(component._globalService.currentProject).toBeDefined();
+    let navigateSpy = spyOn(router, 'navigate');
+  });
+
 
   it('Testing Project Functionality', () => {
     expect(component.ngOnInit).toBeDefined();

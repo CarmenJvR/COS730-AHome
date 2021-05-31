@@ -88,4 +88,10 @@ describe('ProjectComponent', () => {
     expect(component.open).toBeTruthy();
   });
 
+  it('Testing Project Components', () => {
+    expect(component.alertMessage).toBeDefined();
+    expect(component.showAlert).toBeDefined();
+    expect(component.ProjectList).toBeDefined();
+  });
+
 });

@@ -61,6 +61,7 @@ describe('TaskComponent', () => {
     component.ngOnInit();
     expect(component.infoAlert).toBe(false);
     expect(component._globalService.currentViewTabs).toBe(true);
+    expect(component._globalService.TaskList).toBeDefined();
   });
 
   it('Testing CreateTask()', () => {
@@ -71,6 +72,7 @@ describe('TaskComponent', () => {
     console.log(ans.operator);
     expect(taskSpy).toBeDefined();
     expect(tskService.createTask).toHaveBeenCalledWith(test);
+    expect(component._globalService.TaskList).toBeDefined();
   });
 
   it('Testing GetTaskList()', () => {
@@ -81,13 +83,14 @@ describe('TaskComponent', () => {
     console.log(ans.operator);
     expect(taskSpy).toBeDefined();
     expect(tskService.getTaskList).toHaveBeenCalledWith(test2);
+    expect(component._globalService.TaskList).toBeDefined();
   });
 
   it('Testing Task Functionality', () => {
     expect(component.ngOnInit).toBeDefined();
     expect(component.closeTask).toBeTruthy();
     expect(component.open).toBeTruthy();
-    expect(component.infoAlert).toBeTruthy();
+    expect(component.showInfoAlert).toBeTruthy();
     expect(component.updateTaskList).toBeTruthy();
     expect(component.sortListByPrioriy).toBeTruthy();
   });

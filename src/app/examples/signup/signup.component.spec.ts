@@ -65,4 +65,10 @@ describe('SignupComponent', () => {
     expect(accService.loginUser).toHaveBeenCalledWith(test);
   });
 
+  it('Testing Login Functionality', () => {
+    expect(component.ngOnInit).toBeDefined();
+    expect(component.onLogin).toBeTruthy();
+    expect(component.flipView).toBeTruthy();
+  });
+
 });

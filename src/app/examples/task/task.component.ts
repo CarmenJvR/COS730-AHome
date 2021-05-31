@@ -23,7 +23,7 @@ export class TaskComponent implements OnInit {
 
   ngOnInit(): void {
     this._globalService.currentViewTabs = true;
-
+    this.infoAlert = false;
     var reqBody = {"pid" : Number(localStorage.getItem("pID"))} ;
 
     this._globalService.showLoading = true; 

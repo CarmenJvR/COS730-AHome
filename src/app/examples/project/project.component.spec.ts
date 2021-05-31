@@ -52,7 +52,7 @@ describe('ProjectComponent', () => {
     http = TestBed.get(HttpClient);
   });
 
-  it('should be created', () => {
+  it('Successful creation of Project Component', () => {
     expect(component).toBeTruthy();
   });
 

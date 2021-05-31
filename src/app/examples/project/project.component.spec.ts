@@ -52,7 +52,7 @@ describe('ProjectComponent', () => {
     http = TestBed.get(HttpClient);
   });
 
-  it('should be created', () => {
+  it('Successful creation of Project Component', () => {
     expect(component).toBeTruthy();
   });
 
@@ -79,6 +79,11 @@ describe('ProjectComponent', () => {
     console.log(ans.operator);
     expect(accountSpy).toBeDefined();
     expect(projService.getProjectList).toHaveBeenCalledWith(test2);
+  });
+
+  it('Testing SelectProject()', () => {
+    expect(component._globalService.currentProject).toBeDefined();
+    let navigateSpy = spyOn(router, 'navigate');
   });
 
 

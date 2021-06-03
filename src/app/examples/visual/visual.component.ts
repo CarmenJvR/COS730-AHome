@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import {NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import { GlobalService } from "../../global.service";
 import { visualService } from '../../service/visual.service';
+import { accountService } from '../../service/account.service';
 
 
 @Component({
@@ -11,11 +12,14 @@ import { visualService } from '../../service/visual.service';
 })
 export class VisualComponent implements OnInit {
 
-  
+  //public viewSection : String = 'board'; 
+  public numberGuests : number = 0 ;
 
-  constructor(private modalService: NgbModal, public _visualService: visualService , public _globalService : GlobalService) { }
+  constructor( private _accountService: accountService, private modalService: NgbModal, public _visualService: visualService , public _globalService : GlobalService) { }
 
   ngOnInit(): void {
+    this._globalService.viewSection = 'board';
+    this._globalService.GuestList = [];
 
     var reqBody = {"pid" : Number(localStorage.getItem("pID"))} ;
     this._globalService.showLoading = true ;
@@ -23,6 +27,7 @@ export class VisualComponent implements OnInit {
     this._visualService.getBoardList(reqBody).subscribe(res=>{
       this._globalService.showLoading = false ;
       this._globalService.VisualList = res.results ;
+     
 
       if(this._globalService.VisualList.length == 0){
         this._globalService.showAlert = true ;
@@ -41,6 +46,55 @@ export class VisualComponent implements OnInit {
     modalRef.componentInstance.name = 'visual create';
   }
 
+  viewGuests(){
+    this._globalService.showAlert = false ;
+    this._globalService.viewSection = "guestView";
+
+    var reqBody = {"pid" : Number(localStorage.getItem("pID"))} ;
+
+    this._globalService.showLoading = true ;
+    this._accountService.getGuestList(reqBody).subscribe(res=>{
+      this._globalService.showLoading = false ;
+      this._globalService.GuestList = res.results ;
+      this.numberGuests = this._globalService.GuestList.length;
+      if(this._globalService.GuestList.length == 0){
+        this._globalService.AlertMessage = 'No Guest Viewers Yet - Start adding guests to view your visual board';
+        this._globalService.showAlert = true ;
+      }
+      console.log(res);
+      console.log(this._globalService.GuestList);
+
+    }, err => {
+      this._globalService.showLoading = false ;
+      console.log(err.error);
+    });
+
+
+  }
+
+  addGuests(){
+    this._globalService.viewSection = 'addGuest';
+  }
+
+  removeGuest(gid: any){
+    var reqBody = {"gid" : Number(gid)} ;
+
+    this._globalService.showLoading = true ;
+    this._accountService.removeGuest(reqBody).subscribe(res=>{
+      this._globalService.showLoading = false ;
+      this._globalService.AlertMessage = res.message ; 
+      this._globalService.showAlert = true ;
+
+
+    }, err => {
+      this._globalService.showLoading = false ;
+      console.log(err.error);
+      this._globalService.AlertMessage = 'Failed to remove guest. PLease try again later' ; 
+      this._globalService.showAlert = true ;
+    });
+
+  }
+
 
 
 }
@@ -50,7 +104,7 @@ export class VisualComponent implements OnInit {
 @Component({
   selector: 'app-modal-content',
   template: `
-  <div class="modal-header">
+  <div class="modal-header" >
       <h5 class="modal-title text-center">Upload Image</h5>
       <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>

@@ -43,6 +43,7 @@ export class BudgetComponent implements OnInit {
               this._globalService.ExpenseMade += Number(this._globalService.ExpenseList[i].total) ;
             }
           }
+
           this._globalService.BudgetLeft = Number(this._globalService.projectOpen.budget_total) - Number(this._globalService.ExpenseMade);
         }
 

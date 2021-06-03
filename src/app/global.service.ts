@@ -67,7 +67,15 @@ export class GlobalService {
   //Project
   ProjectList : ProjectObj[] = new Array();
   public currentProject : string = "AHome" ; 
-  public projectOpen : ProjectObj ; 
+  private d = new Date() ;
+  public projectOpen : ProjectObj = {
+    id: 1,
+    account_id: 1,
+    name: "Placeholder", 
+    start_date: this.d , 
+    end_date: this.d,
+    budget_total: 0
+  }
 
   //Task
   public TaskList : TaskObj[] = new Array(); 

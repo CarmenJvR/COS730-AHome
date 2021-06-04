@@ -114,4 +114,10 @@ export class SignupComponent implements OnInit {
         });
     }
 
+    onLoginGuest(){
+        var reqBody = {
+            "email": this.userObj.email
+        }
+    }
+
 }

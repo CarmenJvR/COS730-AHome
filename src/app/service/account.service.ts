@@ -27,6 +27,15 @@ export class accountService
       return this.httpClient.post('https://a-home.herokuapp.com/loginAccount', PostData, options );
     }
 
+    loginGuest(PostData): Observable<any>{
+      const options = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }) 
+      };
+      return this.httpClient.post('https://a-home.herokuapp.com/loginGuest', PostData, options );
+    }
+
     addGuest(PostData): Observable<any>{
       const options = {
         headers: new HttpHeaders({
@@ -53,6 +62,8 @@ export class accountService
       };
       return this.httpClient.post('https://a-home.herokuapp.com/guestList', PostData, options );
     }
+
+    
   
 
 }

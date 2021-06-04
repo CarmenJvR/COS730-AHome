@@ -45,6 +45,7 @@ export class SignupComponent implements OnInit {
         localStorage.removeItem('accessToken') ;
         localStorage.removeItem('ac') ;
         localStorage.removeItem('pID') ;
+        localStorage.removeItem('gID') ;
         localStorage.removeItem('alert') ;
     }
 
@@ -127,6 +128,7 @@ export class SignupComponent implements OnInit {
                 this.alertMessage = res.message ;
                 this.showAlert = true ;
             }else{
+                localStorage.setItem("gID",res.gid);
                 this._globalService.viewerType = 'guest' ; 
                 this._globalService.toggleLogin = true ;
                 this.router.navigate(["/project"]) ; 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { accountService } from '../../service/account.service';
 import { Router } from '@angular/router';
 import { GlobalService } from "../../global.service";
+import * as shajs from 'sha.js';
 
 export interface User {
     email: string;
@@ -27,7 +28,7 @@ export class SignupComponent implements OnInit {
     showAlert : boolean = false; 
 
 
-    constructor(public _globalService: GlobalService, private router: Router, public _accountService: accountService ) { 
+    constructor( public _globalService: GlobalService, private router: Router, public _accountService: accountService ) { 
         this.userObj ={
             email: "",
             password: ""
@@ -64,6 +65,7 @@ export class SignupComponent implements OnInit {
         this.showAlert = false ;
         
         this._globalService.showLoading = true;
+        shajs('sha256').update(this.userObj.password).digest('hex');
         this._accountService.loginUser(this.userObj).subscribe(res => {
            
             this._globalService.showLoading = false;
@@ -89,6 +91,8 @@ export class SignupComponent implements OnInit {
         this.showAlert = false ;
         
         this._globalService.showLoading = true;
+        shajs('sha256').update(this.userObj.password).digest('hex');
+        console.log(this.userObj.password);
         this._accountService.registerUser(this.userObj).subscribe(res => {
             
             this._globalService.showLoading = false;
@@ -108,5 +112,7 @@ export class SignupComponent implements OnInit {
             console.log(err.error);
         });
     }
+
+
 
 }

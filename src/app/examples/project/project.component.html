@@ -59,11 +59,11 @@
                             <p class="typography">
                                {{p.name}}
                             </p>
-                            <button type="button"  class="btn btn-danger btn-just-icon" 
+                            <button *ngIf="_globalService.viewerType == 'owner'" type="button"  class="btn btn-danger btn-just-icon" 
                             type="button" ngbTooltip="View Guests" container="body" placement="right" (click)="viewGuests(p.id, p.name)">
                               <i class="fa fa-users"></i>
                             </button>
-                            <button type="button" (click)="selectProject(p.id, p.name, p.start_date, p.end_date, p.budget_total)" class="btn btn-danger btn-round" style="float:right;">View</button>
+                            <button type="button"  (click)="selectProject(p.id, p.name, p.start_date, p.end_date, p.budget_total)" class="btn btn-danger btn-round" style="float:right;">View</button>
                         </div>
                       </div>
                 </div>
@@ -71,7 +71,7 @@
              </div>
           </div>
           <div class="col">
-            <button type="button" style="position:fixed;"  (click)="open()" class="btn btn-danger btn-just-icon">
+            <button type="button" style="position:fixed;" *ngIf="_globalService.viewerType == 'owner'" (click)="open()" class="btn btn-danger btn-just-icon">
               <i class="fa fa-plus"></i>
             </button>
           </div>

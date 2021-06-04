@@ -50,6 +50,7 @@ export class ProjectComponent implements OnInit {
   constructor( public _accountService: accountService, public _globalService: GlobalService, private router: Router, public _projectService: projectService, private modalService: NgbModal ) { }
 
   ngOnInit(): void { 
+    this.testValidAccess();
     this.toggleAddGuest = false; 
     this.showGuests = false; 
     this.numberGuests = 0 ;
@@ -63,8 +64,27 @@ export class ProjectComponent implements OnInit {
     this._globalService.VisualList = [];
     this._globalService.ExpenseList = [];
     this._globalService.currentProject = "AHome"; 
-    this._globalService.showLoading = true ; 
     localStorage.removeItem('pID') ;
+    //Get ProjectList for owner || guest
+    if(this._globalService.viewerType == "owner"){
+      this.getOwnerProjects();
+    }else if(this._globalService.viewerType == "guest"){
+      this.getGuestProjects();
+    }
+
+  }
+
+  testValidAccess(){
+    if(this._globalService.viewerType == "owner" || this._globalService.viewerType == "" ){
+      if(localStorage.getItem("accessToken")== undefined || localStorage.getItem("accessToken")== null || localStorage.getItem("accessToken")== ''){
+        this.router.navigate(["/signup"]) ; 
+      }
+    }
+  }
+
+  getOwnerProjects(){
+    this._globalService.showLoading = true ; 
+    
     var reqObj = {ac: localStorage.getItem("ac")} ;
 
       this._projectService.getProjectList(reqObj).subscribe(res =>{
@@ -74,6 +94,28 @@ export class ProjectComponent implements OnInit {
         if(this._globalService.ProjectList.length == 0){
           this._globalService.showAlert = true;
           this._globalService.AlertMessage = "No Projects Yet. Start creating projects to enjoy all features of AHome!" ; 
+        }
+
+        this._globalService.showAlert = this.showAlert; 
+
+      } , err => {
+        this._globalService.showLoading = false; 
+          console.log(err.error);
+      });
+  }
+
+  getGuestProjects(){
+    this._globalService.showLoading = true ; 
+    
+    var reqObj = {gid: localStorage.getItem("gID")} ;
+
+      this._projectService.getGuestProjectList(reqObj).subscribe(res =>{
+        this._globalService.showLoading = false; 
+        this._globalService.ProjectList = res.results ; 
+
+        if(this._globalService.ProjectList.length == 0){
+          this._globalService.showAlert = true;
+          this._globalService.AlertMessage = "You are not the guest viewer for any project!" ; 
         }
 
         this._globalService.showAlert = this.showAlert; 
@@ -100,7 +142,13 @@ export class ProjectComponent implements OnInit {
         end_date: proEnd,
         budget_total: proBudget
       }
-      this.router.navigate(["/task"]) ;
+      
+
+      if(this._globalService.viewerType == "owner"){
+        this.router.navigate(["/task"]) ;
+      }else if(this._globalService.viewerType == "guest"){
+        this.router.navigate(["/visual-board"]) ;
+      }
   }
 
 

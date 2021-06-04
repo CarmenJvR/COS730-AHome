@@ -37,13 +37,16 @@ export class SignupComponent implements OnInit {
     ngOnInit() {
         this._globalService.currentProject = "AHome";
         this._globalService.currentViewTabs = false;
+        this._globalService.viewerType='';
         this.login= true ;
         this.register = false ;
         this.guestLogin = false; 
+        this._globalService.toggleLogin = false;
 
         localStorage.removeItem('accessToken') ;
         localStorage.removeItem('ac') ;
         localStorage.removeItem('pID') ;
+        localStorage.removeItem('gID') ;
         localStorage.removeItem('alert') ;
     }
 
@@ -74,6 +77,8 @@ export class SignupComponent implements OnInit {
             }else{
                 localStorage.setItem("accessToken", res.accessToken) ;
                 localStorage.setItem("ac", res.ac) ;
+                this._globalService.viewerType = 'owner' ; 
+                this._globalService.toggleLogin = true ;
                 this.router.navigate(["/project"]) ; 
 
             }
@@ -100,10 +105,36 @@ export class SignupComponent implements OnInit {
 
                 localStorage.setItem("accessToken", res.accessToken) ;
                 localStorage.setItem("ac", res.ac) ;
+                this._globalService.viewerType = 'owner' ; 
+                this._globalService.toggleLogin = true ;
                 this.router.navigate(["/project"]) ; 
             }
 
         },err =>{
+            this._globalService.showLoading = false;
+            console.log(err.error);
+        });
+    }
+
+    onLoginGuest(){
+        var reqBody = {
+            "email": this.userObj.email
+        }
+
+        this._globalService.showLoading = false; 
+        this._accountService.loginGuest(reqBody).subscribe(res =>{
+            this._globalService.showLoading = false;
+
+            if(res.message){
+                this.alertMessage = res.message ;
+                this.showAlert = true ;
+            }else{
+                localStorage.setItem("gID",res.gid);
+                this._globalService.viewerType = 'guest' ; 
+                this._globalService.toggleLogin = true ;
+                this.router.navigate(["/project"]) ; 
+            }
+        }, err=>{
             this._globalService.showLoading = false;
             console.log(err.error);
         });

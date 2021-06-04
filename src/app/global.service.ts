@@ -66,6 +66,8 @@ export class GlobalService {
   //navigation
   public currentViewTabs : boolean = false;
   public showLoading : boolean = false;
+  public viewerType : string ='' ;
+  public toggleLogin : boolean = false;
 
  //Alerts
   public showAlert : boolean = false; 

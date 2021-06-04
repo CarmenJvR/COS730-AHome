@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import {NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import { GlobalService } from "../../global.service";
 import { taskService } from '../../service/task.service';
-
+import { Router } from '@angular/router';
 import  jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { toBase64String } from '@angular/compiler/src/output/source_map';
@@ -16,12 +16,13 @@ export class TaskComponent implements OnInit {
 
   public infoAlert : boolean = false;
 
-  constructor(public _globalService: GlobalService, private modalService: NgbModal, public _taskService: taskService) {
+  constructor(public router: Router, public _globalService: GlobalService, private modalService: NgbModal, public _taskService: taskService) {
     this._globalService.showLoading = true; 
    }
 
 
   ngOnInit(): void {
+    this.testValidAccess();
     this._globalService.currentViewTabs = true;
     this.infoAlert = false;
     var reqBody = {"pid" : Number(localStorage.getItem("pID"))} ;
@@ -46,6 +47,14 @@ export class TaskComponent implements OnInit {
     });
 
 
+  }
+
+  testValidAccess(){
+    if(this._globalService.viewerType == "owner" || this._globalService.viewerType == "" ){
+      if(localStorage.getItem("accessToken")== undefined || localStorage.getItem("accessToken")== null || localStorage.getItem("accessToken")== ''){
+        this.router.navigate(["/signup"]) ; 
+      }
+    }
   }
 
   //Open modal for task creation

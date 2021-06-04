@@ -26,6 +26,15 @@ export class projectService
       };
       return this.httpClient.post('https://a-home.herokuapp.com/projectList', PostData, options );
     }
+
+    getGuestProjectList(PostData): Observable<any>{
+      const options = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }) 
+      };
+      return this.httpClient.post('https://a-home.herokuapp.com/guestProjectList', PostData, options );
+    }
   
 
 }

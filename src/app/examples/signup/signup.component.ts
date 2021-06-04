@@ -37,6 +37,7 @@ export class SignupComponent implements OnInit {
     ngOnInit() {
         this._globalService.currentProject = "AHome";
         this._globalService.currentViewTabs = false;
+        this._globalService.viewerType='';
         this.login= true ;
         this.register = false ;
         this.guestLogin = false; 
@@ -74,6 +75,8 @@ export class SignupComponent implements OnInit {
             }else{
                 localStorage.setItem("accessToken", res.accessToken) ;
                 localStorage.setItem("ac", res.ac) ;
+                this._globalService.viewerType = 'owner' ; 
+                this._globalService.toggleLogin = true ;
                 this.router.navigate(["/project"]) ; 
 
             }
@@ -100,6 +103,8 @@ export class SignupComponent implements OnInit {
 
                 localStorage.setItem("accessToken", res.accessToken) ;
                 localStorage.setItem("ac", res.ac) ;
+                this._globalService.viewerType = 'owner' ; 
+                this._globalService.toggleLogin = true ;
                 this.router.navigate(["/project"]) ; 
             }
 

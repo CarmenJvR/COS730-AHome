@@ -13,6 +13,7 @@ import { GlobalService } from "./global.service";
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+
     private _router: Subscription;
     @ViewChild(NavbarComponent) navbar: NavbarComponent;
 

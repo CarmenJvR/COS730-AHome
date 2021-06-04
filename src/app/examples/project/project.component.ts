@@ -50,6 +50,7 @@ export class ProjectComponent implements OnInit {
   constructor( public _accountService: accountService, public _globalService: GlobalService, private router: Router, public _projectService: projectService, private modalService: NgbModal ) { }
 
   ngOnInit(): void { 
+    this.testValidAccess();
     this.toggleAddGuest = false; 
     this.showGuests = false; 
     this.numberGuests = 0 ;
@@ -82,6 +83,12 @@ export class ProjectComponent implements OnInit {
         this._globalService.showLoading = false; 
           console.log(err.error);
       });
+  }
+
+  testValidAccess(){
+    if(localStorage.getItem("accessToken")== undefined || localStorage.getItem("accessToken")== null || localStorage.getItem("accessToken")== ''){
+      this.router.navigate(["/signup"]) ; 
+    }
   }
 
   ionViewWillEnter(){

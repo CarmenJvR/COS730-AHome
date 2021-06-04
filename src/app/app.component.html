@@ -16,6 +16,9 @@
             <div class="collapse navbar-collapse" id="navbar-danger">
                 <ul class="navbar-nav ml-auto" *ngIf="_globalService.currentViewTabs">
                     <li class="nav-item">
+                        <a class="nav-link" href="#/project"><i class="fa fa-book" aria-hidden="true"></i> My Projects</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="#/task"><i class="fa fa-tasks" aria-hidden="true"></i> Task Manager</a>
                     </li>
                     <li class="nav-item">
@@ -27,9 +30,10 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#/visual-board"><i class="fa fa-paint-brush" aria-hidden="true"></i> Visual Board</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#/project"><i class="fa fa-book" aria-hidden="true"></i> My Projects</a>
+                    <li class="nav-item" *ngIf="_globalService.toggleLogin" >
+                        <a class="nav-link" href="#/signup" id="logoutBtn" style="color:black;">Log Out</a>
                     </li>
+
                 </ul>
             </div>
         </div>

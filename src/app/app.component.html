@@ -14,23 +14,23 @@
                 <span class="navbar-toggler-bar"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbar-danger">
-                <ul class="navbar-nav ml-auto" *ngIf="_globalService.currentViewTabs">
-                    <li class="nav-item">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item" *ngIf="_globalService.toggleLogin || _globalService.currentViewTabs">
                         <a class="nav-link" href="#/project"><i class="fa fa-book" aria-hidden="true"></i> My Projects</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" *ngIf="_globalService.currentViewTabs">
                         <a class="nav-link" href="#/task"><i class="fa fa-tasks" aria-hidden="true"></i> Task Manager</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" *ngIf="_globalService.currentViewTabs">
                         <a class="nav-link" href="#/schedule"><i class="fa fa-calendar" aria-hidden="true"></i> Schedule</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" *ngIf="_globalService.currentViewTabs">
                         <a class="nav-link" href="#/budget"><i class="fa fa-money" aria-hidden="true"></i> Budget</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" *ngIf="_globalService.currentViewTabs">
                         <a class="nav-link" href="#/visual-board"><i class="fa fa-paint-brush" aria-hidden="true"></i> Visual Board</a>
                     </li>
-                    <li class="nav-item" *ngIf="_globalService.toggleLogin" >
+                    <li class="nav-item" *ngIf="_globalService.toggleLogin||_globalService.currentViewTabs" >
                         <a class="nav-link" href="#/signup" id="logoutBtn" style="color:black;">Log Out</a>
                     </li>
 

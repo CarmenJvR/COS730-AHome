@@ -41,6 +41,7 @@ export class SignupComponent implements OnInit {
         this.login= true ;
         this.register = false ;
         this.guestLogin = false; 
+        this._globalService.toggleLogin = false;
 
         localStorage.removeItem('accessToken') ;
         localStorage.removeItem('ac') ;

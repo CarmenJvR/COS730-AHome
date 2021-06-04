@@ -142,7 +142,13 @@ export class ProjectComponent implements OnInit {
         end_date: proEnd,
         budget_total: proBudget
       }
-      this.router.navigate(["/task"]) ;
+      
+
+      if(this._globalService.viewerType == "owner"){
+        this.router.navigate(["/task"]) ;
+      }else if(this._globalService.viewerType == "guest"){
+        this.router.navigate(["/visual-board"]) ;
+      }
   }
 
 

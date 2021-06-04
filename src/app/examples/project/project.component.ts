@@ -3,6 +3,7 @@ import { projectService } from '../../service/project.service';
 import { Router } from '@angular/router';
 import {NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import { GlobalService } from "../../global.service";
+import { accountService } from '../../service/account.service';
 
 export interface ProjectObj {
   id: number ;
@@ -33,10 +34,12 @@ export class ProjectComponent implements OnInit {
   alertMessage : string = "No Projects Yet. Start creating projects to enjoy all features of AHome!" ; 
   showAlert : boolean = false; 
   ProjectList : ProjectObj[] = new Array();
+  numberGuests : number = 0 ;
 
-  constructor(public _globalService: GlobalService, private router: Router, public _projectService: projectService, private modalService: NgbModal ) { }
+  constructor( public _accountService: accountService, public _globalService: GlobalService, private router: Router, public _projectService: projectService, private modalService: NgbModal ) { }
 
   ngOnInit(): void { 
+    this.numberGuests = 0 ;
     this.showAlert = false; 
     this._globalService.TaskList = [];
     this._globalService.VisualList = [];
@@ -87,6 +90,34 @@ export class ProjectComponent implements OnInit {
     open() {
       const modalRef = this.modalService.open(NgbdModalContent);
       modalRef.componentInstance.name = 'TaskCreation';
+    }
+
+    //Guest Functionality
+    viewGuests(projectId : any ){
+      this._globalService.showAlert = false ;
+
+      var reqBody = {"pid" : Number(projectId)} ;
+  
+      this._globalService.showLoading = true ;
+      this._accountService.getGuestList(reqBody).subscribe(res=>{
+        this._globalService.showLoading = false ;
+        this._globalService.GuestList = res.results ;
+
+        this.numberGuests = this._globalService.GuestList.length;
+        if(this._globalService.GuestList.length == 0){
+          this._globalService.AlertMessage = 'No Guest Viewers Yet - Start adding guests to view your visual board';
+          this._globalService.showAlert = true ;
+          
+        }
+        console.log(res);
+        console.log(this._globalService.GuestList);
+  
+      }, err => {
+        this._globalService.showLoading = false ;
+        console.log(err.error);
+      });
+  
+  
     }
 
 

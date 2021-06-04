@@ -22,6 +22,12 @@ export interface ProjectCreateObj{
   budget: number;
 }
 
+export interface guestAddObj{
+  pid: number,
+  name: string,
+  email: string 
+}
+
 @Component({
   selector: 'app-project',
   templateUrl: './project.component.html',
@@ -35,12 +41,24 @@ export class ProjectComponent implements OnInit {
   showAlert : boolean = false; 
   ProjectList : ProjectObj[] = new Array();
   numberGuests : number = 0 ;
+  showGuests : boolean = false; 
+  showGuestsProject : string = '';
+  showGuestsPID : number ; 
+  toggleAddGuest : boolean = false; 
+  guestToAdd : guestAddObj ; 
 
   constructor( public _accountService: accountService, public _globalService: GlobalService, private router: Router, public _projectService: projectService, private modalService: NgbModal ) { }
 
   ngOnInit(): void { 
+    this.toggleAddGuest = false; 
+    this.showGuests = false; 
     this.numberGuests = 0 ;
     this.showAlert = false; 
+    this.guestToAdd ={
+      pid: 0 ,
+      name:'',
+      email:''
+    }
     this._globalService.TaskList = [];
     this._globalService.VisualList = [];
     this._globalService.ExpenseList = [];
@@ -93,8 +111,19 @@ export class ProjectComponent implements OnInit {
     }
 
     //Guest Functionality
-    viewGuests(projectId : any ){
+    viewGuests(projectId : any, projectName : any ){
+      this.guestToAdd ={
+        pid: 0 ,
+        name:'',
+        email:''
+      }
+
+      this.toggleAddGuest = false ; 
       this._globalService.showAlert = false ;
+      this.numberGuests = 0 ;
+      this.showGuests = false; 
+      this.showGuestsProject = projectName ; 
+      this.showGuestsPID = projectId ; 
 
       var reqBody = {"pid" : Number(projectId)} ;
   
@@ -102,21 +131,59 @@ export class ProjectComponent implements OnInit {
       this._accountService.getGuestList(reqBody).subscribe(res=>{
         this._globalService.showLoading = false ;
         this._globalService.GuestList = res.results ;
+        this.showGuests =true ; 
 
         this.numberGuests = this._globalService.GuestList.length;
         if(this._globalService.GuestList.length == 0){
           this._globalService.AlertMessage = 'No Guest Viewers Yet - Start adding guests to view your visual board';
           this._globalService.showAlert = true ;
-          
+
         }
-        console.log(res);
-        console.log(this._globalService.GuestList);
   
       }, err => {
         this._globalService.showLoading = false ;
         console.log(err.error);
       });
   
+  
+    }
+
+    addGuest(  ){
+        this.guestToAdd.pid = this.showGuestsPID;
+
+        this._globalService.showLoading = true ;
+        this._accountService.addGuest(this.guestToAdd).subscribe(res =>{
+          this._globalService.showLoading = false ;
+          this._globalService.AlertMessage = res.message ;
+          this._globalService.showAlert = true ; 
+          this.viewGuests(this.showGuestsPID, this.showGuestsProject);
+
+
+        }, err =>{
+          this._globalService.showLoading = false ;
+          console.log(err.error);
+          this._globalService.AlertMessage = "Could not add guest. Please try again later..." ;
+          this._globalService.showAlert = true ; 
+        });
+
+    }
+
+    removeGuest(gid: any){
+      var reqBody = {"gid" : Number(gid)} ;
+      
+      this._globalService.showLoading = true ;
+      this._accountService.removeGuest(reqBody).subscribe(res=>{
+        this._globalService.showLoading = false ;
+        this._globalService.AlertMessage = res.message ; 
+        this._globalService.showAlert = true ;
+        this.viewGuests(this.showGuestsPID, this.showGuestsProject);
+  
+      }, err => {
+        this._globalService.showLoading = false ;
+        console.log(err.error);
+        this._globalService.AlertMessage = 'Failed to remove guest. PLease try again later' ; 
+        this._globalService.showAlert = true ;
+      });
   
     }
 

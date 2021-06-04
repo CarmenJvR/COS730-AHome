@@ -46,6 +46,13 @@ export interface ProjectObj {
     end_time : Time ;
     description : string ; 
   }
+
+  export interface GuestObj{
+    id: number ; 
+    project_id: number ;
+    name: string;
+    email: string ; 
+  }
   
 
 
@@ -83,6 +90,7 @@ export class GlobalService {
 
   //Visual
   public VisualList : BoardObj[] = new Array();
+  public GuestList : GuestObj[] = new Array() ; 
 
   //Expense
   public ExpenseList : ExpenseObj[] = new Array();

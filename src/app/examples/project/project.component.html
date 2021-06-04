@@ -8,6 +8,50 @@
                     <p class="typography" style="text-align: center;"> {{_globalService.AlertMessage}} </p>
                   </div>
                 </div>
+                                <!-- Guest List View -->
+              <div class="col-12" *ngIf="showGuests">
+                <div class="typography-line" style="padding-left: 20px;">
+                  <h3>{{showGuestsProject}} - Guest Viewers ({{numberGuests}}) </h3>
+              </div>
+              </div>
+              <div   class="col-12 guestDiv" *ngIf="showGuests">
+                <!-- View Add Guest Input button -->
+                <button  type="button" class="btn btn-success btn-just-icon" style='color:black;float:right;margin-right:40px;'
+                type="button" ngbTooltip="Close Guest View" container="body" placement="right" (click)="showGuests=!showGuests">
+                  <i class="fa fa-times"></i>
+                </button>
+                <button *ngIf="!toggleAddGuest" type="button" class="btn btn-success btn-just-icon" style='color:black;float:right;margin-right:10px;'
+                type="button" ngbTooltip="Add Guest" container="body" placement="right" (click)="toggleAddGuest=!toggleAddGuest">
+                  <i class="fa fa-user-plus"></i>
+                </button>
+                <br>                
+                <!-- Add Guest Form-->
+                <form id="addGuestForm" *ngIf="toggleAddGuest" class="form-group">
+                  <div class="form-row">
+                    <div class="col-lg-5 col-12">
+                      <label for="nameGuest">Name of Guest Viewer</label>
+                      <input type="text"  [(ngModel)]="guestToAdd.name" class="form-control bg-dark text-white" name="nameGuest" placeholder="Jane" required>
+                    </div>
+                    <div class="col-lg-6 col-12">
+                      <label for="emailGuest">Email of Guest Viewer</label>
+                      <input type="text" [(ngModel)]="guestToAdd.email" class="form-control bg-dark text-white" name="emailGuest"  placeholder="jane123@mail.com" required>
+                    </div>
+                    <div class="col-lg-1 col-12">
+                      <button type="submit"  id="addGuestBtn" (click)="addGuest()" style="color:black;" class="btn btn-success btn-just-icon"><i class="fa fa-plus"></i></button>
+                    </div>
+                  </div>
+                </form>
+                <!-- List of Guests -->
+                <div class="col-12" class="labelDiv" *ngFor="let g of _globalService.GuestList">
+                  <span  class="label label-info">
+                    <label class="guestLabel">• {{g.name}} - {{g.email}}</label> 
+                    <button type="button" class="btn btn-dark btn-just-icon" style='color:black;float:right;margin-right:40px;'
+                      type="button" ngbTooltip="Remove Guest" container="body" placement="right" (click)="removeGuest(g.id)">
+                        <i class="fa fa-trash"></i>
+                      </button>
+                </span>
+                </div>
+              </div>
                 <div class="col-lg-4 col-md-6 col-sm-12" *ngFor="let p of _globalService.ProjectList"> 
                     <div class="card card text-white bg-primary" style="width: 18rem;" >
                         <img class="card-img-top" src="../assets/img/architecture.jpg" alt="Card image cap">                       
@@ -15,10 +59,15 @@
                             <p class="typography">
                                {{p.name}}
                             </p>
+                            <button type="button"  class="btn btn-danger btn-just-icon" 
+                            type="button" ngbTooltip="View Guests" container="body" placement="right" (click)="viewGuests(p.id, p.name)">
+                              <i class="fa fa-users"></i>
+                            </button>
                             <button type="button" (click)="selectProject(p.id, p.name, p.start_date, p.end_date, p.budget_total)" class="btn btn-danger btn-round" style="float:right;">View</button>
                         </div>
                       </div>
                 </div>
+
              </div>
           </div>
           <div class="col">

@@ -26,6 +26,33 @@ export class accountService
       };
       return this.httpClient.post('https://a-home.herokuapp.com/loginAccount', PostData, options );
     }
+
+    addGuest(PostData): Observable<any>{
+      const options = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }) 
+      };
+      return this.httpClient.post('https://a-home.herokuapp.com/addGuest', PostData, options );
+    }
+
+    removeGuest(PostData): Observable<any>{
+      const options = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }) 
+      };
+      return this.httpClient.post('https://a-home.herokuapp.com/removeGuest', PostData, options );
+    }
+
+    getGuestList(PostData): Observable<any>{
+      const options = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }) 
+      };
+      return this.httpClient.post('https://a-home.herokuapp.com/guestList', PostData, options );
+    }
   
 
 }

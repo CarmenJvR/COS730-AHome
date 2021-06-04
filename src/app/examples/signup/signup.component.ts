@@ -118,6 +118,23 @@ export class SignupComponent implements OnInit {
         var reqBody = {
             "email": this.userObj.email
         }
+
+        this._globalService.showLoading = false; 
+        this._accountService.loginGuest(reqBody).subscribe(res =>{
+            this._globalService.showLoading = false;
+
+            if(res.message){
+                this.alertMessage = res.message ;
+                this.showAlert = true ;
+            }else{
+                this._globalService.viewerType = 'guest' ; 
+                this._globalService.toggleLogin = true ;
+                this.router.navigate(["/project"]) ; 
+            }
+        }, err=>{
+            this._globalService.showLoading = false;
+            console.log(err.error);
+        });
     }
 
 }

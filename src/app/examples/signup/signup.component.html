@@ -40,7 +40,8 @@
                               </div>
                             </div>
                               <button class="btn btn-danger btn-block btn-round" (click)="onRegister()" *ngIf="register" >Register</button>
-                              <button class="btn btn-danger btn-block btn-round" (click)="onLogin()" *ngIf="login">Login</button>
+                              <button class="btn btn-danger btn-block btn-round" (click)="onLogin()" *ngIf="login && !guestLogin">Login</button>
+                              <button class="btn btn-danger btn-block btn-round" (click)="onLoginGuest()" *ngIf="login && guestLogin">Login</button>
                           </form>
                           <div class="forgot">
                             <a  class="btn btn-link btn-danger" (click)="flipView()" *ngIf="login && !guestLogin">New user? Register</a>

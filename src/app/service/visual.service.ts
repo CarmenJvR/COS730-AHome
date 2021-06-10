@@ -28,4 +28,13 @@ export class visualService
     }
   
 
+    removeBoard(PostData): Observable<any>{
+      const options = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }) 
+      };
+      return this.httpClient.post('https://a-home.herokuapp.com/removeVisual', PostData, options );
+    }
+
 }

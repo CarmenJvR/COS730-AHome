@@ -8,3 +8,9 @@ body{
 .card-body{
     background-color: rgb(39,41,61) !important;
 }
+
+.card-img-top{
+  width:288px !important;
+  height:288px !important;
+  object-fit:cover !important;
+}

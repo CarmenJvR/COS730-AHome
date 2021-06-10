@@ -18,9 +18,10 @@
                         <p class="typography">
                               {{v.name}}
                         </p>
+                        <button  type="button" ngbTooltip="Delete" container="body" placement="right" *ngIf="_globalService.viewerType == 'owner'" (click)="removeImage(v.id)" class="btn btn-just-icon" style="float:right;" > <i class="fa fa-trash"></i> </button>
                         <a href={{v.image}} download #clickToDownload></a> 
-                         <button  (click)="clickToDownload.click()" class="btn btn-just-icon" style="float:right;" > <i class="fa fa-download"></i> </button>
-                       </div>
+                         <button   type="button" ngbTooltip="Download" container="body" placement="right" (click)="clickToDownload.click()" class="btn btn-just-icon" style="float:right;" > <i class="fa fa-download"></i> </button>
+                          </div>
                   </div>
                     
               </div>

@@ -163,6 +163,32 @@ router.post('/projectList', async (req, res) => {
   }
 })
 
+//API: Create Project
+router.post('/createProject', async (req, res) => {
+  try {
+    const client = await pool.connect();
+
+    //request variables
+      const values = [req.body.ac, req.body.name, req.body.sd, req.body.ed, req.body.budget]
+
+        //Email Not Used: Create Account
+        client.query('INSERT INTO project (account_id, name, start_date, end_date, budget_total) VALUES ($1, $2, $3, $4, $5)', values ,(error, results) => {
+          if (error) {
+           //throw error
+           res.status(404).send( JSON.stringify({error: 'Could Not Create Project'})  )
+          }
+    
+            var respond = { message : 'Project successfully created'};
+            res.status(201).send( JSON.stringify(respond))
+          })
+      
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.send("Error " + err);
+  }
+}); 
+
 
 module.exports = router
 

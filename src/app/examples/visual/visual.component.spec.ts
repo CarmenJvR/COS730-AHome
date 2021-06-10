@@ -55,7 +55,7 @@ describe('VisualComponent', () => {
     expect(component._globalService.VisualList).toBeDefined();
   });
 
-  it('Testing GetBoardList()', () => {
+  it('Testing GetBoardList() Service', () => {
     let visSpy = spyOn(visService, 'getBoardList').and.callThrough();
     let ans = visService.getBoardList(test1).pipe(
       map( res => res.body)
@@ -66,9 +66,22 @@ describe('VisualComponent', () => {
     expect(component._globalService.TaskList).toBeDefined();
   });
 
+  it('Testing RemoveBoard() Service', () => {
+    let visSpy = spyOn(visService, 'removeBoard').and.callThrough();
+    let ans = visService.removeBoard(test1).pipe(
+      map( res => res.body)
+    );
+    console.log(ans.operator);
+    expect(visSpy).toBeDefined();
+    expect(visService.removeBoard).toHaveBeenCalledWith(test1);
+    expect(component._globalService.TaskList).toBeDefined();
+  });
+
   it('Testing Visual Functionality', () => {
     expect(component.ngOnInit).toBeDefined();
     expect(component.open).toBeTruthy();
+    expect(component.removeImage).toBeTruthy();
+    expect(component.updateVisualList).toBeTruthy();
   });
 
 

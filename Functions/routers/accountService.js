@@ -477,5 +477,86 @@ router.post('/removeExpense', async (req, res) => {
   }
 });
 
+/////////////////////////////////////////////////////////////////////////////////////////////////
+////    Schedule API
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+//API: Create Event
+router.post('/createEvent', async (req, res) => {
+  try {
+    const client = await pool.connect();
+
+    //request variables
+      const values = [req.body.pid, req.body.startD, req.body.endD, req.body.startT, req.body.endT, req.body.desc ]
+
+        //Email Not Used: Create Task
+        client.query('INSERT INTO schedule (project_id, start_date , end_date, start_time, end_time, description ) VALUES ($1, $2, $3 , $4 , $5, $6)', values ,(error, results) => {
+          if (error) {
+           //throw error
+           res.status(404).send( JSON.stringify({error: 'Could Not Create Event'})  )
+          }
+    
+            var respond = { message : 'Event Added To Schedule '};
+            res.status(201).send( JSON.stringify(respond))
+          })
+      
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.send("Error " + err);
+  }
+}); 
+
+//API: Get Schedule List
+router.post('/scheduleList', async (req, res) => {
+  try {
+    const client = await pool.connect();
+
+    const valuesR1 = [req.body.pid]
+
+    client.query('SELECT * FROM schedule WHERE project_id = $1', valuesR1 ,(error, results) => {
+      if (error) {
+       throw error
+      }
+      
+        const respond = { 'results': (results) ? results.rows : null};
+        res.send(JSON.stringify(respond));
+      })
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.send("Error " + err);
+  }
+});
+
+
+//API: Remove Event
+router.post('/removeEvent', async (req, res) => {
+  try {
+    const client = await pool.connect();
+
+    //request variables
+      const values = [req.body.eid]
+
+        //Email Not Used: Create Task
+        client.query('DELETE FROM schedule WHERE ID=$1', values ,(error, results) => {
+          if (error) {
+           //throw error
+           res.status(404).send( JSON.stringify({error: 'Could Not Cancel Event'})  )
+          }
+    
+            var respond = { message : 'Event successfully removed'};
+            res.status(201).send( JSON.stringify(respond))
+          })
+      
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.send("Error " + err);
+  }
+});
+
+
+
 module.exports = router
 

@@ -556,6 +556,37 @@ router.post('/removeEvent', async (req, res) => {
   }
 });
 
+/////////////////////////////////////////////////////////////////////////////////////////////////
+////    Guest API
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+//API: Add Guest
+router.post('/addGuest', async (req, res) => {
+  try {
+    const client = await pool.connect();
+
+    //request variables
+      const values = [req.body.pid, req.body.name, req.body.email ]
+
+        //Email Not Used: Create Task
+        client.query('INSERT INTO guest (project_id, name , email ) VALUES ($1, $2, $3 )', values ,(error, results) => {
+          if (error) {
+           //throw error
+           res.status(404).send( JSON.stringify({error: 'Could Not Add Guest Viewer'})  )
+          }
+    
+            var respond = { message : 'Guest Viewer Added'};
+            res.status(201).send( JSON.stringify(respond))
+          })
+      
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.send("Error " + err);
+  }
+}); 
+
+
 
 
 module.exports = router

@@ -350,5 +350,132 @@ router.post('/removeVisual', async (req, res) => {
 });
 
 
+/////////////////////////////////////////////////////////////////////////////////////////////////
+////    Budget API
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+//API: Create Expense
+router.post('/createExpense', async (req, res) => {
+  try {
+    const client = await pool.connect();
+
+    //request variables
+      const values = [req.body.pid, req.body.total, req.body.description, req.body.status ]
+
+        //Email Not Used: Create Task
+        client.query('INSERT INTO budget (project_id, total , description, status ) VALUES ($1, $2, $3 , $4 )', values ,(error, results) => {
+          if (error) {
+           //throw error
+           res.status(404).send( JSON.stringify({error: 'Could Not Create Expense'})  )
+          }
+    
+            var respond = { message : 'Expense Added'};
+            res.status(201).send( JSON.stringify(respond))
+          })
+      
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.send("Error " + err);
+  }
+}); 
+
+//API: Get Budget List
+
+router.post('/expenseList', async (req, res) => {
+  try {
+    const client = await pool.connect();
+
+    const valuesR1 = [req.body.pid]
+
+    client.query('SELECT * FROM budget WHERE project_id = $1', valuesR1 ,(error, results) => {
+      if (error) {
+       throw error
+      }
+      
+        const respond = { 'results': (results) ? results.rows : null};
+        res.send(JSON.stringify(respond));
+      })
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.send("Error " + err);
+  }
+});
+
+
+//API: Update Budget Total
+
+router.post('/updateBudget', async (req, res) => {
+  try {
+    const client = await pool.connect();
+
+    const valuesR1 = [req.body.total , req.body.pid]
+
+    client.query('UPDATE project SET budget_total=$1 WHERE ID=$2', valuesR1 ,(error, results) => {
+      if (error) {
+        res.status(404).send( JSON.stringify({error: 'Could Not Update Budget Total'})  )
+      }
+      
+        var respond = { message : 'Budget Total Updated'};
+        res.send(JSON.stringify(respond));
+      })
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.send("Error " + err);
+  }
+});
+
+//API: Update Expense status
+
+router.post('/updateExpense', async (req, res) => {
+  try {
+    const client = await pool.connect();
+
+    const valuesR1 = [req.body.status , req.body.eid]
+
+    client.query('UPDATE budget SET status=$1 WHERE ID=$2', valuesR1 ,(error, results) => {
+      if (error) {
+        res.status(404).send( JSON.stringify({error: 'Could Not Update Expense Status'})  )
+      }
+      
+        var respond = { message : 'Expense Status Updated'};
+        res.send(JSON.stringify(respond));
+      })
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.send("Error " + err);
+  }
+});
+
+
+//API: Remove Expense
+router.post('/removeExpense', async (req, res) => {
+  try {
+    const client = await pool.connect();
+
+    //request variables
+      const values = [req.body.pid]
+
+        //Email Not Used: Create Task
+        client.query('DELETE FROM budget WHERE ID=$1', values ,(error, results) => {
+          if (error) {
+           //throw error
+           res.status(404).send( JSON.stringify({error: 'Could Not Cancel Expense'})  )
+          }
+    
+            var respond = { message : 'Expense successfully removed'};
+            res.status(201).send( JSON.stringify(respond))
+          })
+      
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.send("Error " + err);
+  }
+});
+
 module.exports = router
 

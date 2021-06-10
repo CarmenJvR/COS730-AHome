@@ -270,6 +270,38 @@ router.post('/removeTask', async (req, res) => {
   }
 });
 
+/////////////////////////////////////////////////////////////////////////////////////////////////
+////    Board API
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+//API: Create Board
+router.post('/createBoard', async (req, res) => {
+  try {
+    const client = await pool.connect();
+
+    //request variables
+      const values = [req.body.pid, req.body.name, req.body.image ]
+
+        //Email Not Used: Create Task
+        client.query('INSERT INTO board (project_id, name , image ) VALUES ($1, $2, $3 )', values ,(error, results) => {
+          if (error) {
+           //throw error
+           res.status(404).send( JSON.stringify({error: 'Could Not Upload Image'})  )
+          }
+    
+            var respond = { message : 'Image successfully uploaded'};
+            res.status(201).send( JSON.stringify(respond))
+          })
+      
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.send("Error " + err);
+  }
+}); 
+
+
+
 
 module.exports = router
 

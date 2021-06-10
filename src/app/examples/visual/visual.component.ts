@@ -41,6 +41,42 @@ export class VisualComponent implements OnInit {
     modalRef.componentInstance.name = 'visual create';
   }
 
+  removeImage(vid:any){
+    var reqBody = {"pid": Number(vid)};
+
+    this._globalService.showLoading = true ;
+    this._visualService.removeBoard(reqBody).subscribe(res=>{
+      this._globalService.showLoading = false ;
+      this._globalService.showAlert = true ;
+      this._globalService.AlertMessage = res.message ; 
+      this.updateVisualList();
+
+    },err =>{
+      this._globalService.showLoading = false ;
+      this._globalService.showAlert = true ;
+      this._globalService.AlertMessage = "A problem occurred. Could not remove image";
+    });
+
+  }
+
+  updateVisualList(){
+    var reqBody = {"pid" : Number(localStorage.getItem("pID"))} ;
+    this._globalService.showLoading = true ;
+
+    this._visualService.getBoardList(reqBody).subscribe(res=>{
+      this._globalService.showLoading = false ;
+      this._globalService.VisualList = res.results ;
+
+      if(this._globalService.VisualList.length == 0){
+        this._globalService.showAlert = true ;
+        this._globalService.AlertMessage = "Start uploading images to view your Visual Board here...";
+      }
+
+    },err => {
+
+      this._globalService.showLoading = false ;
+    });
+  }
 
 
 }

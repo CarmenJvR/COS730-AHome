@@ -25,4 +25,4 @@ projects while also maintaining a record for after service.
   <a href="">User Manual: Overleaf - LaTex</a> 
 
  ## Project Management Tools
- * <a href="https://sharing.clickup.com/l/h/6-9857440-1/bef6c0ef53aae98">ClickUp</a>
+ * <a href="https://sharing.clickup.com/l/h/4-3496522-1/42b6c704210dd3f">ClickUp</a>

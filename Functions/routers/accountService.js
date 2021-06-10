@@ -323,6 +323,32 @@ router.post('/boardList', async (req, res) => {
   }
 });
 
+//API: Remove Image
+router.post('/removeVisual', async (req, res) => {
+  try {
+    const client = await pool.connect();
+
+    //request variables
+      const values = [req.body.pid]
+
+        //Email Not Used: Create Task
+        client.query('DELETE FROM visal WHERE ID=$1', values ,(error, results) => {
+          if (error) {
+           //throw error
+           res.status(404).send( JSON.stringify({error: 'Could Not Remove Image'})  )
+          }
+    
+            var respond = { message : 'Image successfully removed'};
+            res.status(201).send( JSON.stringify(respond))
+          })
+      
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.send("Error " + err);
+  }
+});
+
 
 module.exports = router
 

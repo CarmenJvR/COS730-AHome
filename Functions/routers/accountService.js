@@ -659,6 +659,38 @@ router.post('/guestProjectList', async (req, res) => {
 });
 
 
+//API: Log In Guest User
+router.post('/loginGuest', async (req, res) => {
+  try {
+    const client = await pool.connect();
+
+    //request variables
+      const valuesR1 = [req.body.email ]
+
+      client.query('SELECT * FROM guest WHERE email = $1', valuesR1, (error, results) => {
+        if (error) {
+         // throw error
+         var resObj1 = {message: 'Could Not Login'};
+         res.status(200).send(JSON.stringify(resObj1)) ;
+        }
+  
+        if (results.rows.length == 0){
+          var resObj = {message: 'Could Not Login: Guest User not found'};
+          res.status(200).send(JSON.stringify(resObj)) ;
+        }else{
+            const gAC = results.rows[0].id;
+            var respond = { gid: gAC};
+            res.status(201).send( JSON.stringify(respond))
+        }
+      })
+
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.send("Error " + err);
+  }
+});
+
 
 module.exports = router
 

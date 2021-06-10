@@ -244,5 +244,32 @@ router.post('/taskList', async (req, res) => {
 });
 
 
+//API: Remove Task
+router.post('/removeTask', async (req, res) => {
+  try {
+    const client = await pool.connect();
+
+    //request variables
+      const values = [req.body.tid]
+
+        //Email Not Used: Create Task
+        client.query('DELETE FROM task WHERE ID=$1', values ,(error, results) => {
+          if (error) {
+           //throw error
+           res.status(404).send( JSON.stringify({error: 'Could Not Close Task'})  )
+          }
+    
+            var respond = { message : 'Task successfully closed'};
+            res.status(201).send( JSON.stringify(respond))
+          })
+      
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.send("Error " + err);
+  }
+});
+
+
 module.exports = router
 

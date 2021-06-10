@@ -190,5 +190,86 @@ router.post('/createProject', async (req, res) => {
 }); 
 
 
+/////////////////////////////////////////////////////////////////////////////////////////////////
+////    TASK API
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+//API: Create Task
+router.post('/createTask', async (req, res) => {
+  try {
+    const client = await pool.connect();
+
+    //request variables
+      const values = [req.body.pid, req.body.desc, req.body.priority ]
+
+        //Email Not Used: Create Task
+        client.query('INSERT INTO task (project_id, description , priority ) VALUES ($1, $2, $3 )', values ,(error, results) => {
+          if (error) {
+           //throw error
+           res.status(404).send( JSON.stringify({error: 'Could Not Create Task'})  )
+          }
+    
+            var respond = { message : 'Task successfully created'};
+            res.status(201).send( JSON.stringify(respond))
+          })
+      
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.send("Error " + err);
+  }
+}); 
+
+//API: Get Task List
+
+router.post('/taskList', async (req, res) => {
+  try {
+    const client = await pool.connect();
+
+    const valuesR1 = [req.body.pid]
+
+    client.query('SELECT * FROM task WHERE project_id = $1', valuesR1 ,(error, results) => {
+      if (error) {
+       throw error
+      }
+      
+        const respond = { 'results': (results) ? results.rows : null};
+        res.send(JSON.stringify(respond));
+      })
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.send("Error " + err);
+  }
+});
+
+
+//API: Remove Task
+router.post('/removeTask', async (req, res) => {
+  try {
+    const client = await pool.connect();
+
+    //request variables
+      const values = [req.body.tid]
+
+        //Email Not Used: Create Task
+        client.query('DELETE FROM task WHERE ID=$1', values ,(error, results) => {
+          if (error) {
+           //throw error
+           res.status(404).send( JSON.stringify({error: 'Could Not Close Task'})  )
+          }
+    
+            var respond = { message : 'Task successfully closed'};
+            res.status(201).send( JSON.stringify(respond))
+          })
+      
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.send("Error " + err);
+  }
+});
+
+
 module.exports = router
 

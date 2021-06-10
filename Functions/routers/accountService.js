@@ -270,6 +270,85 @@ router.post('/removeTask', async (req, res) => {
   }
 });
 
+/////////////////////////////////////////////////////////////////////////////////////////////////
+////    Board API
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+//API: Create Board
+router.post('/createBoard', async (req, res) => {
+  try {
+    const client = await pool.connect();
+
+    //request variables
+      const values = [req.body.pid, req.body.name, req.body.image ]
+
+        //Email Not Used: Create Task
+        client.query('INSERT INTO board (project_id, name , image ) VALUES ($1, $2, $3 )', values ,(error, results) => {
+          if (error) {
+           //throw error
+           res.status(404).send( JSON.stringify({error: 'Could Not Upload Image'})  )
+          }
+    
+            var respond = { message : 'Image successfully uploaded'};
+            res.status(201).send( JSON.stringify(respond))
+          })
+      
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.send("Error " + err);
+  }
+}); 
+
+//API: Get Board List
+
+router.post('/boardList', async (req, res) => {
+  try {
+    const client = await pool.connect();
+
+    const valuesR1 = [req.body.pid]
+
+    client.query('SELECT * FROM board WHERE project_id = $1', valuesR1 ,(error, results) => {
+      if (error) {
+       throw error
+      }
+      
+        const respond = { 'results': (results) ? results.rows : null};
+        res.send(JSON.stringify(respond));
+      })
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.send("Error " + err);
+  }
+});
+
+//API: Remove Image
+router.post('/removeVisual', async (req, res) => {
+  try {
+    const client = await pool.connect();
+
+    //request variables
+      const values = [req.body.pid]
+
+        //Email Not Used: Create Task
+        client.query('DELETE FROM visal WHERE ID=$1', values ,(error, results) => {
+          if (error) {
+           //throw error
+           res.status(404).send( JSON.stringify({error: 'Could Not Remove Image'})  )
+          }
+    
+            var respond = { message : 'Image successfully removed'};
+            res.status(201).send( JSON.stringify(respond))
+          })
+      
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.send("Error " + err);
+  }
+});
+
 
 module.exports = router
 

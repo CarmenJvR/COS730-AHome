@@ -146,7 +146,7 @@ export class ProjectComponent implements OnInit {
 
       if(this._globalService.viewerType == "owner"){
         this.router.navigate(["/task"]) ;
-      }else if(this._globalService.viewerType == "guest"){
+      }else{
         this.router.navigate(["/visual-board"]) ;
       }
   }

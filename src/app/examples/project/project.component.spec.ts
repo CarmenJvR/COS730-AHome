@@ -82,8 +82,11 @@ describe('ProjectComponent', () => {
   });
 
   it('Testing SelectProject()', () => {
-    expect(component._globalService.currentProject).toBeDefined();
     let navigateSpy = spyOn(router, 'navigate');
+    component.selectProject(1,2,3,4,5);
+    expect(navigateSpy).toHaveBeenCalledWith(['/visual-board']);
+   // expect(component._globalService.currentProject).toBeDefined();
+    
   });
 
 
@@ -98,5 +101,8 @@ describe('ProjectComponent', () => {
     expect(component.showAlert).toBeDefined();
     expect(component.ProjectList).toBeDefined();
   });
+
+
+
 
 });

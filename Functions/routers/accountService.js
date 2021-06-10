@@ -586,6 +586,31 @@ router.post('/addGuest', async (req, res) => {
   }
 }); 
 
+//API: Remove Guest
+router.post('/removeGuest', async (req, res) => {
+  try {
+    const client = await pool.connect();
+
+    //request variables
+      const values = [req.body.gid]
+
+        //Email Not Used: Create Task
+        client.query('DELETE FROM guest WHERE ID=$1', values ,(error, results) => {
+          if (error) {
+           //throw error
+           res.status(404).send( JSON.stringify({error: 'Could Not Remove Guest Viewer'})  )
+          }
+    
+            var respond = { message : 'Successfully Removed Guest Viewer'};
+            res.status(201).send( JSON.stringify(respond))
+          })
+      
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.send("Error " + err);
+  }
+});
 
 
 

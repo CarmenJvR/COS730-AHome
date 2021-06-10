@@ -380,6 +380,29 @@ router.post('/createExpense', async (req, res) => {
   }
 }); 
 
+//API: Get Budget List
+
+router.post('/expenseList', async (req, res) => {
+  try {
+    const client = await pool.connect();
+
+    const valuesR1 = [req.body.pid]
+
+    client.query('SELECT * FROM budget WHERE project_id = $1', valuesR1 ,(error, results) => {
+      if (error) {
+       throw error
+      }
+      
+        const respond = { 'results': (results) ? results.rows : null};
+        res.send(JSON.stringify(respond));
+      })
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.send("Error " + err);
+  }
+});
+
 
 module.exports = router
 

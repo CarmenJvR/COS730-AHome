@@ -135,14 +135,29 @@ export class TaskComponent implements OnInit {
     var doc = new jsPDF();
     var datai = []; 
 
-    this._globalService.TaskList.forEach(element => {      
-      var temp = [element.description, element.priority];
+    this._globalService.TaskList.forEach(element => {    
+      var tempPriority = "";
+
+      switch(element.priority){
+        case 1: tempPriority = "High";
+                break;
+        case 2: tempPriority = "Medium";
+                break;
+        case 3: tempPriority = "Neutral";
+                break;
+        case 4: tempPriority = "Low";
+                break;
+        default: tempPriority = "Low" 
+                 break;
+      }
+      
+      var temp = [element.description, tempPriority];
       datai.push(temp);
    }); 
 
 
    doc.setFontSize(18);
-   doc.text('Project Tasklist: ' + this._globalService.currentProject , 11, 8);
+   doc.text('Project Tasklist: ' + this._globalService.currentProject , 58, 8);
    doc.setFontSize(11);
    doc.setTextColor(100);
 
@@ -152,12 +167,18 @@ export class TaskComponent implements OnInit {
      head: headi,
      body: datai,
      theme: 'grid',
+     startY: 47,
+     headStyles: {
+      minCellHeight: 5, fontSize: 12, fontStyle: 'bold', halign: 'center', text: { minCellWidth: 'wrap' }, lineWidth: 0.02,
+      fillColor: [235, 64, 52],
+      lineColor: [217, 216, 216]
+     },
      didDrawCell: data => {
        console.log(data.column.index)
      }
    })
 
-
+   doc.addImage('../../assets/img/logo.png', 11,  8, 40, 40);
     // Download PDF document  
     doc.save('AHome Project Tasklist: ' + this._globalService.currentProject +'.pdf');
   } 

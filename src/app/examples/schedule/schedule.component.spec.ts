@@ -27,6 +27,12 @@ var d = new Date();
     "endT": d 
   }
 
+  var test3 = {
+    "pid": 3,
+    "start": d,
+    "end" : d
+  }
+
 describe('ScheduleComponent', () => {
   let component: ScheduleComponent;
   let fixture: ComponentFixture<ScheduleComponent>;
@@ -111,6 +117,17 @@ describe('ScheduleComponent', () => {
     expect(component._globalService.TaskList).toBeDefined();
   });
 
+  it('Testing UpdateSchedule()', () => {
+    let eventSpy = spyOn(evtService, 'updateSchedule').and.callThrough();
+    let ans = evtService.updateSchedule(test3).pipe(
+      map( res => res.body)
+    );
+    console.log(ans.operator);
+    expect(eventSpy).toBeDefined();
+    expect(evtService.updateSchedule).toHaveBeenCalledWith(test3);
+    expect(component.timeFrame).toBeDefined();
+  });
+
   it('Testing SortMonthList()', () => {
     component.sortMonthList();
     expect(component._globalService.ScheduleList).toBeDefined();
@@ -128,6 +145,16 @@ describe('ScheduleComponent', () => {
     expect(component._globalService.DecemberList).toBeDefined();
   });
 
+
+  it('Testing NextYear()', () => {
+    component.nextYear();
+    expect(component._globalService.showAlert).toBe(false);
+  });
+
+  it('Testing PreviousYear()', () => {
+    component.previousYear();
+    expect(component._globalService.showAlert).toBe(false);
+  });
   
 
 });

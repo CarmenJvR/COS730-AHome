@@ -186,7 +186,9 @@ export class ScheduleComponent implements OnInit {
   setTimeFrame(){
     var start = new Date(this._globalService.projectOpen.start_date);
     var end = new Date(this._globalService.projectOpen.end_date);
-    this.timeFrame = start.getDate().toString() + "/" + start.getMonth().toString() + "/"+ start.getFullYear().toString() + " - "+ end.getDate().toString() + "/" + end.getMonth().toString() + "/"+ end.getFullYear().toString()  ;
+    var sMon = start.getMonth() + 1;
+    var eMon = end.getMonth() + 1 ; 
+    this.timeFrame = start.getDate().toString() + "/" + sMon.toString() + "/"+ start.getFullYear().toString() + " - "+ end.getDate().toString() + "/" + eMon.toString() + "/"+ end.getFullYear().toString()  ;
   }
 
   updateTimeframe(){
@@ -199,8 +201,11 @@ export class ScheduleComponent implements OnInit {
 
       var start = new Date(this.timeObj.start);
       var end = new Date(this.timeObj.end);
-      this.timeFrame = start.getDate().toString() + "/" + start.getMonth().toString() + "/"+ start.getFullYear().toString() + " - "+ end.getDate().toString() + "/" + end.getMonth().toString() + "/"+ end.getFullYear().toString()  ;
- 
+      var sMon = start.getMonth() + 1;
+      var eMon = end.getMonth() + 1 ; 
+      this.timeFrame = start.getDate().toString() + "/" + sMon.toString() + "/"+ start.getFullYear().toString() + " - "+ end.getDate().toString() + "/" + eMon.toString() + "/"+ end.getFullYear().toString()  ;
+      this.showUpdateTime = false ; 
+      
       this._globalService.showLoading = false ;
 
     }, err =>{

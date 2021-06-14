@@ -50,12 +50,11 @@
                             <td>R {{e.total}}</td>
                             <td *ngIf='e.status == "pending"'  >
                             
-                              <div placement="left" container="body" ngbTooltip="Pay Expense" style="color:indianred;border:solid;border-width: 1px;
-                              border-color: rgb(103, 107, 145);cursor: pointer;margin:5px;padding:5px;" (click)="payExpense(e.id)">
+                              <div placement="right" container="body" ngbTooltip="Pay Expense" style="text-align:center;color:#f7765f;cursor: pointer;margin:5px;padding:5px;border-radius:20px;background-color: #66615b;" (click)="payExpense(e.id)">
                                 {{e.status}}
                               </div>
                             </td>
-                            <td *ngIf='e.status == "paid"' style="color:darkturquoise">{{e.status}}</td>
+                            <td *ngIf='e.status == "paid"' style="color:darkturquoise;text-align:center;">{{e.status}}</td>
                             <td>
                                 <button type="button"  class="btn btn-dark btn-just-icon" 
                                     type="button" container="body" ngbTooltip="Remove Expense" placement="right" (click)="removeExpense(e.id)" >

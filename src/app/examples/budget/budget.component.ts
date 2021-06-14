@@ -105,9 +105,7 @@ export class BudgetComponent implements OnInit {
         }else{
           this._globalService.ExpenseMade = 0 ;
           for(var i = 0 ; i< this._globalService.ExpenseList.length ; i++){
-            if(this._globalService.ExpenseList[i].status == "paid"){
               this._globalService.ExpenseMade += Number(this._globalService.ExpenseList[i].total) ;
-            }
           }
           this._globalService.BudgetLeft = Number(this._globalService.projectOpen.budget_total) - Number(this._globalService.ExpenseMade);
           console.log(this._globalService.BudgetLeft);
@@ -294,9 +292,8 @@ export class NgbdModalContent {
         }else{
           this._globalService.ExpenseMade = 0 ;
           for(var i = 0 ; i< this._globalService.ExpenseList.length ; i++){
-            if(this._globalService.ExpenseList[i].status == "paid"){
               this._globalService.ExpenseMade += Number(this._globalService.ExpenseList[i].total) ;
-            }
+            
            }
 
           this._globalService.BudgetLeft = Number(this._globalService.projectOpen.budget_total) - Number(this._globalService.ExpenseMade);

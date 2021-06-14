@@ -101,7 +101,8 @@ export class GlobalService {
 
   //schedule
   public ScheduleList : ScheduleObj[] = new Array(); 
-  
+  public activeYear : number = new Date().getFullYear(); 
+
   public JanuaryList : ScheduleObj2[] = new Array(); 
   public FebruaryList : ScheduleObj2[] = new Array();
   public MarchList : ScheduleObj2[] = new Array();

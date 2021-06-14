@@ -36,6 +36,15 @@ export class eventService
         return this.httpClient.post('https://a-home.herokuapp.com/scheduleList', PostData, options );
       }
 
+      updateSchedule(PostData): Observable<any>{
+        const options = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+          }) 
+        };
+        return this.httpClient.post('https://a-home.herokuapp.com/updateSchedule', PostData, options );
+      }
+
   
 
 }

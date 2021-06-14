@@ -14,10 +14,18 @@ import 'jspdf-autotable';
 export class BudgetComponent implements OnInit {
 
   public infoAlert : boolean = false; 
+  public showUpdateBudget : boolean = false ;
+
+  public budgetObj = {
+    "pid": Number( localStorage.getItem("pID")),
+    "total": this._globalService.projectOpen.budget_total
+  }
 
   constructor(private router: Router, public _budgetService: budgetService, private modalService: NgbModal, public _globalService : GlobalService) { }
 
   ngOnInit(): void {
+    this.showUpdateBudget = false ;
+
     if(this._globalService.projectOpen == undefined){
       this.router.navigate(["/project"]) ;
     }
@@ -105,9 +113,7 @@ export class BudgetComponent implements OnInit {
         }else{
           this._globalService.ExpenseMade = 0 ;
           for(var i = 0 ; i< this._globalService.ExpenseList.length ; i++){
-            if(this._globalService.ExpenseList[i].status == "paid"){
               this._globalService.ExpenseMade += Number(this._globalService.ExpenseList[i].total) ;
-            }
           }
           this._globalService.BudgetLeft = Number(this._globalService.projectOpen.budget_total) - Number(this._globalService.ExpenseMade);
           console.log(this._globalService.BudgetLeft);
@@ -196,7 +202,20 @@ export class BudgetComponent implements OnInit {
     doc.save('AHome Project Budget: ' + this._globalService.currentProject +'.pdf');
   } 
 
+  updateBudget(){
+      this._globalService.showLoading = true ;
+      this._budgetService.updateProjectBudget(this.budgetObj).subscribe(res=>{
+        this._globalService.showLoading = false ;
+        this._globalService.AlertMessage = res.message;
+        this._globalService.showAlert = true ;
+        this.showUpdateBudget = false; 
 
+      }, err =>{
+        this._globalService.showLoading = false ;
+        this._globalService.AlertMessage = "Failed to update total budget";
+        this._globalService.showAlert = true ;
+      });
+  }
 
 
 }
@@ -294,9 +313,8 @@ export class NgbdModalContent {
         }else{
           this._globalService.ExpenseMade = 0 ;
           for(var i = 0 ; i< this._globalService.ExpenseList.length ; i++){
-            if(this._globalService.ExpenseList[i].status == "paid"){
               this._globalService.ExpenseMade += Number(this._globalService.ExpenseList[i].total) ;
-            }
+            
            }
 
           this._globalService.BudgetLeft = Number(this._globalService.projectOpen.budget_total) - Number(this._globalService.ExpenseMade);

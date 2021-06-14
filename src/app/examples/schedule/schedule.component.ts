@@ -13,12 +13,22 @@ import { eventService } from '../../service/event.service';
 export class ScheduleComponent implements OnInit {
 
   public todayMonth : number = new Date().getMonth()+1;
- 
+  public timeFrame : string ;
+  public showUpdateTime : boolean = false;
+
+  public timeObj = {
+    "pid": Number( localStorage.getItem("pID")),
+    "start": new Date(this._globalService.projectOpen.start_date),
+    "end" : new Date(this._globalService.projectOpen.end_date)
+  }
 
   constructor(public _eventService: eventService, private modalService: NgbModal, public _globalService : GlobalService) { }
 
   ngOnInit(): void {
     var req = { pid : Number(localStorage.getItem("pID"))};
+    this._globalService.activeYear = new Date().getFullYear();
+    this.setTimeFrame();
+    this.showUpdateTime = false ; 
 
     this._globalService.showLoading = true; 
     this._eventService.getSchedule(req).subscribe(res=>{
@@ -53,58 +63,71 @@ export class ScheduleComponent implements OnInit {
         this._globalService.NovemberList = [];
         this._globalService.DecemberList = [];
 
+        var emptyScheduleFlag = true ; 
+
     for(var i = 0 ; i < this._globalService.ScheduleList.length ; i++){
       var tempDate = new Date(this._globalService.ScheduleList[i].start_date) ;
-      var tempObj = {
-        id: this._globalService.ScheduleList[i].id ,
-        start_date : tempDate.getDate().toString(),
-        start_time : this._globalService.ScheduleList[i].start_time ,
-        end_time : this._globalService.ScheduleList[i].end_time ,
-        description : this._globalService.ScheduleList[i].description ,
-      }
 
-      
+      if(tempDate.getFullYear() == this._globalService.activeYear)
+      {
+        emptyScheduleFlag = false; 
 
-      switch(tempDate.getMonth()+1) {
-        case 1:
-          this._globalService.JanuaryList.push(tempObj);
-          break;
-        case 2:
-          this._globalService.FebruaryList.push(tempObj);
-          break;
-          case 3:
-            this._globalService.MarchList.push(tempObj);
-          break;
-          case 4:
-            this._globalService.AprilList.push(tempObj);
-          break;
-          case 5:
-            this._globalService.MayList.push(tempObj);
-          break;
-          case 6:
-            this._globalService.JuneList.push(tempObj);
-          break;
-          case 7:
-            this._globalService.JulyList.push(tempObj);
-          break;
-          case 8:
-            this._globalService.AugustList.push(tempObj);
-          break;
-          case 9:
-            this._globalService.SeptemberList.push(tempObj);
-          break;
-          case 10:
-            this._globalService.OctoberList.push(tempObj);
-          break;
-          case 11:
-            this._globalService.NovemberList.push(tempObj);
-          break;
-          case 12:
-            this._globalService.DecemberList.push(tempObj);
-          break;
-        default:
-          // code block
+          var tempObj = {
+            id: this._globalService.ScheduleList[i].id ,
+            start_date : tempDate.getDate().toString(),
+            start_time : this._globalService.ScheduleList[i].start_time ,
+            end_time : this._globalService.ScheduleList[i].end_time ,
+            description : this._globalService.ScheduleList[i].description ,
+          }
+
+          
+
+          switch(tempDate.getMonth()+1) {
+            case 1:
+              this._globalService.JanuaryList.push(tempObj);
+              break;
+            case 2:
+              this._globalService.FebruaryList.push(tempObj);
+              break;
+              case 3:
+                this._globalService.MarchList.push(tempObj);
+              break;
+              case 4:
+                this._globalService.AprilList.push(tempObj);
+              break;
+              case 5:
+                this._globalService.MayList.push(tempObj);
+              break;
+              case 6:
+                this._globalService.JuneList.push(tempObj);
+              break;
+              case 7:
+                this._globalService.JulyList.push(tempObj);
+              break;
+              case 8:
+                this._globalService.AugustList.push(tempObj);
+              break;
+              case 9:
+                this._globalService.SeptemberList.push(tempObj);
+              break;
+              case 10:
+                this._globalService.OctoberList.push(tempObj);
+              break;
+              case 11:
+                this._globalService.NovemberList.push(tempObj);
+              break;
+              case 12:
+                this._globalService.DecemberList.push(tempObj);
+              break;
+            default:
+              // code block
+          }
       }
+    }
+
+    if(emptyScheduleFlag){
+      this._globalService.AlertMessage = "No Scheduled Events for this Year";
+      this._globalService.showAlert = true ;
     }
 
   }
@@ -147,6 +170,53 @@ export class ScheduleComponent implements OnInit {
     }); 
   }
 
+  nextYear(){
+    this._globalService.showAlert = false ;
+    this._globalService.activeYear++;
+    this.sortMonthList();
+
+  }
+
+  previousYear(){
+    this._globalService.showAlert = false ;
+    this._globalService.activeYear--;
+    this.sortMonthList();
+  }
+
+  setTimeFrame(){
+    var start = new Date(this._globalService.projectOpen.start_date);
+    var end = new Date(this._globalService.projectOpen.end_date);
+    var sMon = start.getMonth() + 1;
+    var eMon = end.getMonth() + 1 ; 
+    this.timeFrame = start.getDate().toString() + "/" + sMon.toString() + "/"+ start.getFullYear().toString() + " - "+ end.getDate().toString() + "/" + eMon.toString() + "/"+ end.getFullYear().toString()  ;
+  }
+
+  updateTimeframe(){
+    
+    this._globalService.showLoading = true ;
+    this._eventService.updateSchedule(this.timeObj).subscribe(res =>{
+      
+      this._globalService.AlertMessage = res.message;
+      this._globalService.showAlert = true ;
+
+      var start = new Date(this.timeObj.start);
+      var end = new Date(this.timeObj.end);
+      var sMon = start.getMonth() + 1;
+      var eMon = end.getMonth() + 1 ; 
+      this.timeFrame = start.getDate().toString() + "/" + sMon.toString() + "/"+ start.getFullYear().toString() + " - "+ end.getDate().toString() + "/" + eMon.toString() + "/"+ end.getFullYear().toString()  ;
+      this.showUpdateTime = false ; 
+      
+      this._globalService.showLoading = false ;
+
+    }, err =>{
+      this._globalService.showLoading = false ;
+      this._globalService.AlertMessage = "Failed to update project timeframe";
+      this._globalService.showAlert = true ;
+    });
+
+
+  }
+
 }
 
 
@@ -169,18 +239,18 @@ export class ScheduleComponent implements OnInit {
         <input type="text" class="form-control" placeholder="Description" #des required> 
 
         <div class="typography-line" style="padding-left:10px;margin-top:10px">
-            <h6> Start </h6>
+            <h6> Date </h6>
         </div>
         <span>
         <input type="date"  #startD required >
-        <input type="time"  #startT required >
+        
         </span>
 
         <div class="typography-line" style="padding-left:10px;margin-top:10px">
-            <h6> End Time </h6>
+            <h6> Time </h6>
         </div>
         <span>
-           <input type="date"   #endD required >
+           <input type="time"  #startT required >
            <input type="time"   #endT required >
         </span>
 
@@ -194,7 +264,7 @@ export class ScheduleComponent implements OnInit {
       </div>
       <div class="divider"></div>
       <div class="right-side">
-          <input type="submit" class="btn btn-success btn-link" (click)="addEventToList(des.value, startD.value, startT.value, endD.value , endT.value , $event);activeModal.close('Close click') " value="Create"/>
+          <input type="submit" class="btn btn-success btn-link" (click)="addEventToList(des.value, startD.value, startT.value , endT.value , $event);activeModal.close('Close click') " value="Create"/>
       </div>
   </div>
   `
@@ -207,14 +277,14 @@ export class NgbdModalContent {
 
   }
 
-  addEventToList(iDes: any, iStartD: any, iStartT: any, iEndD: any, iEndT: any, event: Event){
+  addEventToList(iDes: any, iStartD: any, iStartT: any,  iEndT: any, event: Event){
 
       var req = {
         "pid": Number(localStorage.getItem("pID")),
         "desc" : iDes ,
         "startD": iStartD,
         "startT": iStartT,
-        "endD" : iEndD,
+        "endD" : iStartD,
         "endT": iEndT 
       }
 
@@ -250,58 +320,72 @@ export class NgbdModalContent {
     this._globalService.NovemberList = [];
     this._globalService.DecemberList = [];
 
+    var emptyScheduleFlag = true ; 
+
     for(var i = 0 ; i < this._globalService.ScheduleList.length ; i++){
       var tempDate = new Date(this._globalService.ScheduleList[i].start_date) ;
-      var tempObj = {
-        id: this._globalService.ScheduleList[i].id ,
-        start_date : tempDate.getDate().toString(),
-        start_time : this._globalService.ScheduleList[i].start_time ,
-        end_time : this._globalService.ScheduleList[i].end_time ,
-        description : this._globalService.ScheduleList[i].description ,
-      }
 
-      
+      if(tempDate.getFullYear() == this._globalService.activeYear)
+      {
+        emptyScheduleFlag = false ;
+        var tempObj = {
+          id: this._globalService.ScheduleList[i].id ,
+          start_date : tempDate.getDate().toString(),
+          start_time : this._globalService.ScheduleList[i].start_time ,
+          end_time : this._globalService.ScheduleList[i].end_time ,
+          description : this._globalService.ScheduleList[i].description ,
+        }
+  
+        
+  
+        switch(tempDate.getMonth()+1) {
+          case 1:
+            this._globalService.JanuaryList.push(tempObj);
+            break;
+          case 2:
+            this._globalService.FebruaryList.push(tempObj);
+            break;
+            case 3:
+              this._globalService.MarchList.push(tempObj);
+            break;
+            case 4:
+              this._globalService.AprilList.push(tempObj);
+            break;
+            case 5:
+              this._globalService.MayList.push(tempObj);
+            break;
+            case 6:
+              this._globalService.JuneList.push(tempObj);
+            break;
+            case 7:
+              this._globalService.JulyList.push(tempObj);
+            break;
+            case 8:
+              this._globalService.AugustList.push(tempObj);
+            break;
+            case 9:
+              this._globalService.SeptemberList.push(tempObj);
+            break;
+            case 10:
+              this._globalService.OctoberList.push(tempObj);
+            break;
+            case 11:
+              this._globalService.NovemberList.push(tempObj);
+            break;
+            case 12:
+              this._globalService.DecemberList.push(tempObj);
+            break;
+          default:
+            // code block
+        }
 
-      switch(tempDate.getMonth()+1) {
-        case 1:
-          this._globalService.JanuaryList.push(tempObj);
-          break;
-        case 2:
-          this._globalService.FebruaryList.push(tempObj);
-          break;
-          case 3:
-            this._globalService.MarchList.push(tempObj);
-          break;
-          case 4:
-            this._globalService.AprilList.push(tempObj);
-          break;
-          case 5:
-            this._globalService.MayList.push(tempObj);
-          break;
-          case 6:
-            this._globalService.JuneList.push(tempObj);
-          break;
-          case 7:
-            this._globalService.JulyList.push(tempObj);
-          break;
-          case 8:
-            this._globalService.AugustList.push(tempObj);
-          break;
-          case 9:
-            this._globalService.SeptemberList.push(tempObj);
-          break;
-          case 10:
-            this._globalService.OctoberList.push(tempObj);
-          break;
-          case 11:
-            this._globalService.NovemberList.push(tempObj);
-          break;
-          case 12:
-            this._globalService.DecemberList.push(tempObj);
-          break;
-        default:
-          // code block
       }
+     
+    }
+
+    if(emptyScheduleFlag){
+      this._globalService.AlertMessage = "No Scheduled Events for this Year";
+      this._globalService.showAlert = true ;
     }
 
   }

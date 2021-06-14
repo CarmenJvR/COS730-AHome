@@ -78,3 +78,29 @@ h6::after{
     color: black ; 
     font-size: small;
 }
+
+#addTieForm{
+    color:white;
+    background-color: rgb(31,31,47)  ;
+    border-radius: 15px; 
+    width:80% ; 
+    padding:10px;
+    margin:auto ;
+    margin-bottom: 20px;
+}
+
+#addTimeBtn{
+    margin-top:50%;
+}
+
+.timeDiv{
+    background-color: rgb(39,41,61) !important;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(103, 107, 145);
+    margin-right: 60px;
+    margin-bottom: 30px;
+    padding:10px;
+    min-height: 10vh;
+    min-width: 60vw !important;
+}

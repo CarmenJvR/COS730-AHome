@@ -5,14 +5,7 @@
                 <div class="row">
                     <div class="col-lg-4 col-sm-6 mr-auto ml-auto">
                       <div class="card card-register">
-                        <div class="form-check" style="float:right;">
-                            <label class="form-check-label">
-                              <input class="form-check-input" type="checkbox" [checked]="guestLogin"
-                              (change)="guestLogin = !guestLogin" >
-                              Guest Viewer?
-                              <span class="form-check-sign"></span>
-                            </label>
-                          </div>
+                        
                           <h3 class="title">Welcome</h3>
                           <div class="alert alert-danger" role="alert" *ngIf="showAlert" >
                             {{alertMessage}}
@@ -39,11 +32,20 @@
                                   <input type="password" name="userPass" class="form-control" [(ngModel)]="userObj.password" placeholder="Password"  (focus)="focus1=true" (blur)="focus1=false" >
                               </div>
                             </div>
+                            <div class="form-check" *ngIf="login">
+                              <label class="form-check-label" style="margin-bottom:-10px;">
+                                <input class="form-check-input" type="checkbox" [checked]="guestLogin"
+                                (change)="guestLogin = !guestLogin" >
+                                Guest Viewer?
+                                <span class="form-check-sign"></span>
+                              </label>
+                            </div>
                               <button class="btn btn-danger btn-block btn-round" (click)="onRegister()" *ngIf="register" >Register</button>
                               <button class="btn btn-danger btn-block btn-round" (click)="onLogin()" *ngIf="login && !guestLogin">Login</button>
                               <button class="btn btn-danger btn-block btn-round" (click)="onLoginGuest()" *ngIf="login && guestLogin">Login</button>
                           </form>
-                          <div class="forgot">
+                          
+                          <div class="forgot" >
                             <a  class="btn btn-link btn-danger" (click)="flipView()" *ngIf="login && !guestLogin">New user? Register</a>
                             <a  class="btn btn-link btn-danger" (click)="flipView()" *ngIf="register && !guestLogin">Already signed up? Log in</a>
                               

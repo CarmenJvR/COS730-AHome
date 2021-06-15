@@ -23,6 +23,9 @@ projects while also maintaining a record for after service.
  ## Project Management Tools
  * <a href="https://sharing.clickup.com/b/h/6-9857440-2/7eced5ab6ae7f9c">ClickUp - User Stories</a>
 
+## Demo
+* <a href="https://drive.google.com/drive/folders/16NdvKT9Hd79-eOaswl_rp0-E63T8xego?usp=sharing">Demo Video </a>
+
  ## Installation Instructions
  The back-end logic of this application is hosted on Heroku (NodeJS functions and Postgresql Database). 
  To run this application you can download the main branch of this git repository. This contains the front-end Angular application. <br>
